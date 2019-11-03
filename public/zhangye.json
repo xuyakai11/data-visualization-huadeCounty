@@ -1,0 +1,158 @@
+{
+  "code": 200,
+  "data": {
+    "SKURankDataTotal": 1234.56,
+    "SKURankData": [
+      {
+        "name": "怀慈堂滋补品旗舰店",
+        "type": "1"
+      },{
+        "name": "英乾彩陶馆",
+        "type": "2"
+      },{
+        "name": "怀慈堂滋补品旗舰店",
+        "type": "3"
+      },{
+        "name": "英乾彩陶馆",
+        "type": "4"
+      },{
+        "name": "怀慈堂滋补品旗舰店",
+        "type": "5"
+      },{
+        "name": "英乾彩陶馆",
+        "type": "6"
+      },{
+        "name": "怀慈堂滋补品旗舰店",
+        "type": "1"
+      },{
+        "name": "英乾彩陶馆",
+        "type": "2"
+      }
+    ],
+    "tradeTotal": 124.5,
+    "trade": [
+      {
+        "name": "阿联酋",
+        "value": 98
+      },
+      {
+        "name": "卡塔尔",
+        "value": 90
+      },
+      {
+        "name": "科威特",
+        "value": 70
+      },
+      {
+        "name": "阿曼",
+        "value": 50
+      },
+      {
+        "name": "沙特阿拉伯",
+        "value": 10
+      }
+    ],
+    "areaSale": [
+      {
+        "name": "甘州区",
+        "value": 98
+      },
+      {
+        "name": "临泽县",
+        "value": 90
+      },
+      {
+        "name": "山丹县",
+        "value": 70
+      },
+      {
+        "name": "明乐县",
+        "value": 50
+      },
+      {
+        "name": "高台县",
+        "value": 50
+      },
+      {
+        "name": "肃南县",
+        "value": 10
+      }
+    ],
+    "sale":{
+      "dayMoney":100,
+      "dayTrend": "-10",
+      "monthMoney":1000,
+      "monthTrend": "-10",
+      "totalMoney":10000,
+      "totalTrend": "+10"
+    },
+    "rate1":[
+      {"value":300,"name":"家庭用品"},
+      {"value":300, "name":"母婴用品"},
+      {"value":400, "name":"特色产品"}
+    ],
+    "rate2":[
+      {"value":300,"name":"甘州县"},
+      {"value":300, "name":"临泽县"},
+      {"value":400, "name":"山丹县"},
+      {"value":400, "name":"民乐县"},
+      {"value":400, "name":"高台县"},
+      {"value":400, "name":"肃南县"}
+    ],
+    "rate3":[
+      {"value":300,"name":"甘州县"},
+      {"value":300, "name":"临泽县"},
+      {"value":400, "name":"山丹县"},
+      {"value":400, "name":"民乐县"},
+      {"value":400, "name":"高台县"},
+      {"value":400, "name":"肃南县"}
+    ],
+    "yearStatistics":[{"sale_value":"425.84","sale_name":"01-02"},{"sale_value":"3609.82","sale_name":"2013"},{"sale_value":"5806.09","sale_name":"2014"},{"sale_value":"11826.16","sale_name":"2015"},{"sale_value":"17872.53","sale_name":"2016"},{"sale_value":"22835.83","sale_name":"2017"},{"sale_value":"27210.03","sale_name":"2019"}],
+    "express":{
+      "in": 123456,
+      "out": 32432,
+      "county":[
+        {"value":300,"name":"甘州县"},
+        {"value":300, "name":"临泽县"},
+        {"value":400, "name":"山丹县"},
+        {"value":400, "name":"民乐县"},
+        {"value":400, "name":"高台县"},
+        {"value":400, "name":"肃南县"}
+      ]
+    },
+    "orderArea":[
+      {
+        "name": "上海",
+        "value": 98
+      },
+      {
+        "name": "北京",
+        "value": 90
+      },
+      {
+        "name": "广州",
+        "value": 70
+      },
+      {
+        "name": "南京",
+        "value": 50
+      },
+      {
+        "name": "郑州",
+        "value": 10
+      },
+      {
+        "name": "深圳",
+        "value": 90
+      },
+      {
+        "name": "武汉",
+        "value": 70
+      },
+      {
+        "name": "陕西",
+        "value": 50
+      }
+    ]
+  }
+}
