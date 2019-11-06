@@ -7,8 +7,10 @@
 <style lang="scss">
 body {
   font-size: .16rem;
-  line-height: 1;
+  line-height: 1.33;
+  color: #00e4ff;
   background: #f0f2f5;
+
 }
 #app {
   font-family: 'MicrosoftYaHei', 'Avenir', Helvetica, Arial, sans-serif;

@@ -15,9 +15,9 @@ export default new Router({
       component: () => import('./views/Index.vue')
     },
     {
-      path: '/uploadfile',
-      name: 'UpLoadFile',
-      component: () => import('./views/UpLoadFile.vue')
+      path: '/mappage',
+      name: 'MapPage',
+      component: () => import('./views/MapPage.vue')
     }
   ]
 })

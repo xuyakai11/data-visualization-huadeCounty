@@ -2,30 +2,16 @@
   <div class="wrap">
     <div class="banner">
       <h1>化德县电子商务数据展示平台</h1>
-      <div class="logo">
-        <img src="../assets/img/logo2.png" alt="">
-        <img src="../assets/img/logo1.png" alt="">
+      <div class="banner-img">
+        各数据综合展示屏
       </div>
-      <div class="time">{{timer}}</div>
     </div>
-    <div class="main clearfix">
+    <div class="main">
       <div class="main-left">
         <div class="common lt">
           <h3>全市电商2019年销售额统计</h3>
           <div class="money"><div v-for="item in SKURankDataTotal[0]">{{item}}</div><i>.</i><div v-for="item in SKURankDataTotal[1]">{{item}}</div><span>万元</span></div>
           <RollingOfRankings ref="roller"/>
-        </div>
-        <div class="common lm">
-          <h3>跨境电商销售统计</h3>
-          <div class="earth">
-            <img src="../assets/img/earth.png" alt="">
-          </div>
-          <div class="clearfix">
-            <div class="money" style="float:right"><div v-for="item in tradeTotal[0]">{{item}}</div><i>.</i><div v-for="item in tradeTotal[1]">{{item}}</div><span>万美元</span></div>
-          </div>
-          <div class="clearfix">
-            <DiyBar :datas="trade" style="float:right;width: 3rem;margin-top: .22rem"/>
-          </div>
         </div>
         <div class="common lb">
           <h3>各县区销售统计</h3>
@@ -33,9 +19,6 @@
         </div>
       </div>
       <div class="main-middle">
-        <div>
-          <ChinaMap ref="chinaMap"/>
-        </div>
         <div class="common mm">
           <h3>张掖市电商销售额统计</h3>
           <div class="saleStatistics">
@@ -84,7 +67,7 @@
           <h3>历年销售额统计（万元）</h3>
           <BarAndLine :datas="yearStatistics" />
         </div>
-        <div class="common lm inout">
+        <div class="common r inout">
           <h3>本年度全市快递数据累计统计</h3>
           <h4 class="title">张掖市快递出入件统计：</h4>
           <div class="top">
@@ -136,7 +119,6 @@ interface echartData{
   }
   })
 export default class Index extends Vue {
-  timer: string = ''
   SKURankDataTotal = ['012345','21'];
   tradeTotal = ['1234','11'];
   sale:any = {}
@@ -159,27 +141,11 @@ export default class Index extends Vue {
   SKURankData: Array<object> = []
   yearStatistics: Array<object> = []
 
-  created () {
-    let t = setInterval(()=>{
-      this.timerFunction()
-    },1000)
-  }
+  
   mounted() {
     this.getData()
   }
-  timerFunction (): void {
-    let nowDate = new Date(),
-        y = nowDate.getFullYear(),
-        m = nowDate.getMonth() + 1,
-        d = nowDate.getDate(),
-        h = nowDate.getHours(),
-        mi = nowDate.getMinutes(),
-        s = nowDate.getSeconds(),
-        fm = (v: number): String => {
-          return v < 10 ? '0' + v : '' + v;
-        };
-    this.timer =  y + '-' + fm(m) + '-' + fm(d) + ' ' + fm(h) + ':' + fm(mi)+':'+ fm(s)
-  }
+  
 
   getFormateNumber(n:number, len:number):Array<string> {
     let y = String(n).split('.');
@@ -203,8 +169,6 @@ export default class Index extends Vue {
         (this.$refs.roller as any).runRoller(data.SKURankData);
         this.yearStatistics = data.yearStatistics;
 
-        (this.$refs.chinaMap as any).drawChart(data.mapCity);
-
         this.trade.list = data.trade.slice(0,5);
         this.tradeTotal = this.getFormateNumber(data.tradeTotal, 4)
 
@@ -219,59 +183,47 @@ export default class Index extends Vue {
       }
     });
     
-    (this.$refs.chinaMap as any).drawChart();
   }
 }
 </script>
 <style lang="scss" scoped>
   .wrap{
+    box-sizing: border-box;
     min-height: 100vh;
+    padding: .3rem;
     background: url('../assets/img/bg.jpg') 0 0 no-repeat;
     background-size: cover;
   }
   .banner {
-    height: 1.08rem;
-    background: url('../assets/img/banner.png') center top no-repeat;
-    background-size: cover;
-    .logo {
-      position: absolute;
-      left: -.1rem;
-      top: .1rem;
-      img {
-        width: .34rem;
-        margin-left: .2rem
-      }
-    }
+    display: flex;
     h1 {
-      padding-top: .25rem;
-      text-align: center;
-      font-size: .36rem;
+      font-size: .32rem;
       font-weight: 600;
-      line-height: .48rem;
-      color: #DBE9FF;
-      // text-align: center;
     }
-    .time {
-      position: absolute;
-      right: .18rem;
-      top: .16rem;
-      line-height: .24rem;
-      font-size: 18px;
-      color: #98C1FF;
+    .banner-img {
+      width: 11.54rem;
+      height: .42rem;
+      padding-left: 2.16rem;
+      font-size: .24rem;
+      line-height: .38rem;
+      background: url('../assets/img/banner.png') 0 -.33rem no-repeat / 100% auto;
     }
   }
   .main {
-    padding: 0 .1rem;
+    display: flex;
+    justify-content: space-between
   }
-  .main-left,.main-right{
-    float: left;
-    width: 5.07rem;
-    margin-top: -.45rem;
+  .main-left{
+    width: 5.08rem;
+    margin-top: .22rem;
   }
   .main-middle{
-    float: left;
-    width: 8.65rem;
-    margin: 0 .1rem;
+    width: 8.7rem;
+    margin-top: .22rem;
+  }
+  .main-right {
+    width: 4.2rem;
+    margin-top: -.42rem;
   }
   .common {
     position: relative;
@@ -329,12 +281,12 @@ export default class Index extends Vue {
       margin-top: .22rem
     }
   }
-  .lm {
+  .r {
     height: 2.69rem;
     .money {
       margin-top: .17rem
     }
-    background-image: url('../assets/img/lm.png')
+    background-image: url('../assets/img/r.png')
   }
   .lb {
     height: 3.2rem;
@@ -342,13 +294,11 @@ export default class Index extends Vue {
   }
   .mm {
     height: 1.29rem;
-    background-image: url('../assets/img/mm.png')
   }
   .mb {
     height: 2.29rem;
     width: 2.81rem;
     float: left;
-    background-image: url('../assets/img/mb.png');
     h3 {
       margin-top: .02rem;
     }
