@@ -9,13 +9,26 @@
     <div class="main">
       <div class="main-left">
         <div class="common lt">
-          <h3>全市电商2019年销售额统计</h3>
-          <div class="money"><div v-for="item in SKURankDataTotal[0]">{{item}}</div><i>.</i><div v-for="item in SKURankDataTotal[1]">{{item}}</div><span>万元</span></div>
-          <RollingOfRankings ref="roller"/>
+          <h3>扶贫数据</h3>
+          <div class="lt-head">
+            <div class="left">
+              <h4>累计扶贫人数：</h4><div class="number">{{SKURankDataTotal[0]}}</div>
+              <h4>累计扶贫金额：</h4><div class="number"><div>{{SKURankDataTotal[0]}}</div><div class="decimal"><span>RMB / 万元</span><div>.{{SKURankDataTotal[1]}}</div></div></div>
+            </div>
+            <div class="pie">
+            </div>
+          </div>
+          <RollingOfRankings ref="rollerTop"/>
         </div>
         <div class="common lb">
-          <h3>各县区销售统计</h3>
-          <DiyBarHorizen :datas="areaSale" />
+          <h3>站点便民服务</h3>
+          <div class="money-wrap">
+            <h4>累计便民服务总金额：</h4>
+            <div class="money"><div v-for="item in SKURankDataTotal[0]">{{item}}</div><i></i><div class="decimal"><span>RMB / 万元</span><div v-for="item in SKURankDataTotal[1]">{{item}}</div></div></div>
+            <div class="today">今日便民服务金额：<span>26837.34</span>RMB / 元
+            </div>
+          </div>
+          <RollingOfRankings ref="roller"/>
         </div>
       </div>
       <div class="main-middle">
@@ -165,7 +178,8 @@ export default class Index extends Vue {
       if(r. code === 200) {
         console.log(r.data);
         let data = r.data;
-        this.SKURankDataTotal = this.getFormateNumber(data.SKURankDataTotal, 6);
+        this.SKURankDataTotal = this.getFormateNumber(data.SKURankDataTotal, 5);
+        (this.$refs.rollerTop as any).runRoller(data.SKURankData);
         (this.$refs.roller as any).runRoller(data.SKURankData);
         this.yearStatistics = data.yearStatistics;
 
@@ -187,6 +201,7 @@ export default class Index extends Vue {
 }
 </script>
 <style lang="scss" scoped>
+  $yellow: #FFC760;
   .wrap{
     box-sizing: border-box;
     min-height: 100vh;
@@ -225,61 +240,181 @@ export default class Index extends Vue {
     width: 4.2rem;
     margin-top: -.42rem;
   }
+  .lt-head {
+    display: flex;
+    margin-bottom: .14rem;
+    .left {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      width: 2.5rem;
+      height: 1.45rem;
+      padding: .1rem;
+      background: rgba(0,228,255,.1);
+      border-radius: .05rem;
+      h4 {
+        flex-basis: .64rem;
+        margin-bottom: .14rem;
+        font-size: .16rem;
+        line-height: .2rem;
+        font-weight: 600;
+      }
+      .number {
+        flex-basis: 1.56rem;
+        height: .56rem;
+        margin-left: .1rem;
+        margin-bottom: .14rem;
+        line-height: .58rem;
+        padding: 0 .04rem;
+        font-size: .4rem;
+        color: $yellow;
+        background: #04172E;
+        border-radius: .08rem;
+        &>div {
+          float: left;
+          letter-spacing: -.02rem;
+        }
+      }
+      .decimal {
+        position: relative;
+        height: .56rem;
+        width: .4rem;
+        padding-top: .1rem;
+        div {
+          height: .56rem;
+          line-height: .52rem;
+          font-size: .2rem;
+          &:last-child {
+            margin-left: .06rem;
+          }
+        }
+        span {
+          position: absolute;
+          left: -.1rem;
+          top: .1rem;
+          right: 0;
+          width: .8rem;
+          font-size: .12rem;
+          font-weight: 600;
+          line-height: 1;
+          letter-spacing: 0;
+          transform: scale(.6)
+        }
+      }
+    }
+  }
   .common {
     position: relative;
-    overflow: hidden;
-    padding: 0 .18rem;
+    padding: .32rem .2rem 0 .2rem;
     margin-bottom: .1rem;
     width: 100%;
-    color:#fff;
     background: url('../assets/img/lt.png') no-repeat center center / 100% 100%;
     h3 {
-      margin-top: .05rem;
-      padding-left: .32rem;
-      font-size: .18rem;
-      line-height: 1;
-      color: #DBE9FF;
-      font-weight: 500;
+      position: absolute;
+      top: -.08rem;
+      left: .4rem;
+      font-size: .2rem;
+      height: .26rem;
+      line-height: .26rem;;
+      font-weight: 600;
+    }
+    .money-wrap {
+      margin-bottom: .14rem;
+      padding: .1rem;
+      background: rgba(0,228,255,.1);
+      border-radius: .05rem;
+      h4 {
+        font-size: .16rem;
+        line-height: .2rem;
+        font-weight: 600;
+      }
+      .today {
+        position: relative;
+        padding-left: .27rem;
+        span {
+          padding-right: .05rem;
+          color: $yellow
+        }
+        &::before {
+          position: absolute;
+          left: .07rem;
+          top: .05rem;
+          content: '';
+          width: .1rem;
+          height: .1rem;
+          border-radius: 50%;
+          background: $yellow
+        }
+      }
     }
     .money {
-      height: .6rem;
-      padding: .1rem .1rem .1rem 0;
-      margin-bottom: .05rem;
-      opacity: 0.8;
-      background: #0064BC;
-      border-radius: .08rem;
-      font-size: .35rem;
-      line-height: .4rem;
-      color: #17D0AC;
-      div,i,span {
-        float: left;
-        margin-left: .1rem;
+      display: flex;
+      height: .72rem;
+      margin: .12rem 0;
+      color: $yellow;
+      &>div,i {
+        // float: left;
+        margin-right: .1rem;
       }
+
       i {
-        font-style: normal;
-        font-size: .38rem;
-        line-height: .44rem;
+        position: relative;
+        width: .16rem;
+        height: .72rem;
+        font-size: 0;
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: .16rem;
+          left: .05rem;
+          width: .06rem;
+          height: .06rem;
+          background: $yellow
+        }
+        
       }
-      span {
-        font-size: .18rem;
-        color: #FFFFFF;
-        font-weight: 600;
+      .decimal {
+        position: relative;
+        height: .72rem;
+        width: .8rem;
+        padding-top: .28rem;
+        background: transparent;
+        div {
+          float: left;
+          height: .44rem;
+          line-height: .44rem;
+          width: .34rem;
+          font-size: .38rem;
+          background: #04172E;
+          border-radius: .04rem;
+          &:last-child {
+            margin-left: .06rem;
+          }
+        }
+        span {
+          position: absolute;
+          left: 0;
+          top: .04rem;
+          font-size: .15rem;
+          font-weight: 600;
+          line-height: 1;
+        }
       }
-      div {
-        height: .4rem;
-        width: .32rem;
+      &>div {
+        height: .72rem;
+        width: .57rem;
         font-weight: 600;
+        font-size: .63rem;
+        line-height: .72rem;
         text-align: center;
-        background: #00143B;
-        border-radius: .04rem;
+        background: #04172E;
+        border-radius: .07rem;
       }
     }
   }
   .lt {
-    height: 3.98rem;
-    .money {
-      margin-top: .22rem
-    }
+    height: 4.1rem;
+    margin-bottom: .3rem;
   }
   .r {
     height: 2.69rem;
@@ -289,7 +424,7 @@ export default class Index extends Vue {
     background-image: url('../assets/img/r.png')
   }
   .lb {
-    height: 3.2rem;
+    height: 5.04rem;
     background-image: url('../assets/img/lb.png')
   }
   .mm {
