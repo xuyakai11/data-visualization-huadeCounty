@@ -27,6 +27,14 @@
         "monthIncome": 1234,
         "yearIncome": 12345,
         "increase": 53.00
+      },
+      {
+        "nameTown": "长顺镇",
+        "name": "张三",
+        "dayIncome": 123,
+        "monthIncome": 1234,
+        "yearIncome": 12345,
+        "increase": 53.00
       }
     ],
     "fupinRateList": [
@@ -65,14 +73,14 @@
         "expressFee": 53.00
       }
     ],
-    "tradeTotal": 1234.56,
+    "tradeTotal": 123455799.56,
     "sale":{
       "dayMoney":100,
-      "dayTrend": "-10",
+      "dayTrend": -10,
       "monthMoney":1000,
-      "monthTrend": "-10",
+      "monthTrend": -5,
       "totalMoney":10000,
-      "totalTrend": "+10"
+      "totalTrend": 10
     },
     "tradeRankData": [
       {

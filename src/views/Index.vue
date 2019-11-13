@@ -12,34 +12,62 @@
           <h3>扶贫数据</h3>
           <div class="lt-head">
             <div class="left">
-              <h4>累计扶贫人数：</h4><div class="number">{{tradeTotal[0]}}</div>
-              <h4>累计扶贫金额：</h4><div class="number"><div>{{tradeTotal[0]}}</div><div class="decimal"><span>RMB / 万元</span><div>.{{tradeTotal[1]}}</div></div></div>
+              <h4>累计扶贫人数：</h4>
+              <div class="number">{{allData.fupinNumber}}</div>
+              <h4>累计扶贫金额：</h4>
+              <div class="number">
+                <div>{{fupinMoney[0]}}</div>
+                <div class="decimal"><span>RMB / 万元</span>
+                  <div>.{{fupinMoney[1]}}</div>
+                </div>
+              </div>
             </div>
-            <div class="pie">
+            <div class="pie"> 
+
             </div>
           </div>
-          <RollingOfRankings ref="rollerTop"/>
+          <RollingOfRankings ref="rollerTop" :lenEach="4" :titleList="['乡村','人名','日收入','月收入','年收入','增长']" :dataName="['nameTown','name','dayIncome','monthIncome','yearIncome','increase']" />
         </div>
         <div class="common lb">
           <h3>站点便民服务</h3>
           <div class="money-wrap">
             <h4>累计便民服务总金额：</h4>
-            <div class="money"><div v-for="item in tradeTotal[0]">{{item}}</div><i></i><div class="decimal"><span>RMB / 万元</span><div v-for="item in tradeTotal[1]">{{item}}</div></div></div>
-            <div class="today">今日便民服务金额：<span>26837.34</span>RMB / 元
+            <div class="money">
+              <div v-for="item in serviceMoney[0]">{{item}}</div>
+              <i></i>
+              <div class="decimal">
+                <span>RMB / 万元</span>
+                <div v-for="item in serviceMoney[1]">{{item}}</div>
+              </div>
+            </div>
+            <div class="today">今日便民服务金额：<span>{{allData.serviceMoneyToday}}</span>RMB / 元
             </div>
           </div>
-          <RollingOfRankings ref="roller"/>
+          <RollingOfRankings ref="rollerLB" :lenEach="6" :titleList="['乡村','电费','话费','代买代卖','助农取款','快递']"  :dataName="['nameTown','eleFee','phoneFee','buying','helpMoney','expressFee']" />
         </div>
       </div>
       <div class="main-middle">
-        <div class="common mm">
+        <div class="common m">
           <h3>电商交易数据</h3>
+          <div class="money-wrap">
+            <h4>电商销售累计总额：</h4>
+            <div class="money">
+              <div v-for="item in tradeTotal[0]">{{item}}</div>
+              <i></i>
+              <div class="decimal"><span>RMB / 元</span>
+                <div v-for="item in tradeTotal[1]">{{item}}</div>
+              </div>
+            </div>
+          </div>
           <div class="saleStatistics">
             <div>
               <div class="title">日销售总额</div>
               <div class="sale-money">
                 <div><span>{{sale.dayMoney}}</span>万元</div>
-                <div class="rate">{{sale.dayTrend}}%<img src="../assets/img/up.png" alt=""></div>
+                <div class="rate"><template v-if="sale.dayTrend>0">+</template>{{sale.dayTrend}}%
+                  <img src="../assets/img/up.png" v-if="sale.dayTrend>=0" alt="">
+                  <img src="../assets/img/down.png" v-else alt="">
+                </div>
               </div>
               
             </div>
@@ -47,7 +75,10 @@
               <div class="title">月销售总额</div>
               <div class="sale-money">
                 <div><span style="color: #FFC760;">{{sale.monthMoney}}</span>万元</div>
-                <div class="rate">{{sale.monthTrend}}%<img src="../assets/img/up.png" alt=""></div>
+                <div class="rate"><template v-if="sale.monthTrend>0">+</template>{{sale.monthTrend}}%
+                  <img src="../assets/img/up.png" v-if="sale.monthTrend>=0" alt="">
+                  <img src="../assets/img/down.png" v-else alt="">
+                </div>
               </div>
               
             </div>
@@ -55,23 +86,16 @@
               <div class="title">年销售总额</div>
               <div class="sale-money">
                 <div><span style="color: #EC7751;">{{sale.totalMoney}}</span>万元</div>
-                <div class="rate">{{sale.totalTrend}}%<img src="../assets/img/up.png" alt=""></div>
+                <div class="rate"><template v-if="sale.totalTrend>0">+</template>{{sale.totalTrend}}%
+                  <img src="../assets/img/up.png" v-if="sale.totalTrend>=0" alt="">
+                  <img src="../assets/img/down.png" v-else alt="">
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="clearfix">
           <div class="common mb" style="padding:0">
             <h3>主营产品占比</h3>
             <PieDoughnut ref="PieDoughnut1" />
-          </div>
-          <div class="common mb" style="margin: 0 .1rem;">
-            <h3>各县区销售额占比</h3>
-            <PieDoughnut ref="PieDoughnut2" />
-          </div>
-          <div class="common mb">
-            <h3>各县区网店数占比</h3>
-            <PieDoughnut ref="PieDoughnut3" />
           </div>
         </div>
       </div>
@@ -131,8 +155,10 @@ interface echartData{
   }
   })
 export default class Index extends Vue {
+  allData: any = {};
   tradeTotal: Array<string> = ['012345','21'];
-  tradeTotal: Array<string> = ['1234','11'];
+  fupinMoney: Array<string> = ['012345','21'];
+  serviceMoney: Array<string> = ['012345','21'];
   sale:any = {}
   express:any = {}
   orderArea: any = {
@@ -197,20 +223,24 @@ export default class Index extends Vue {
       r = r.data;
       if(r. code === 200) {
         console.log(r.data);
+        this.allData = r.data;
         let data = r.data;
         this.tradeTotal = this.getFormateNumber(data.tradeTotal, 5);
+        this.fupinMoney = this.getFormateNumber(data.fupinMoney, 5);
+        this.serviceMoney = this.getFormateNumber(data.serviceMoney, 5);
+        this.sale = data.sale;
+
         this.express = data.express
         this.getRandomExpress(data.express);
 
-        (this.$refs.rollerTop as any).runRoller(data.tradeRankData);
-        (this.$refs.roller as any).runRoller(data.tradeRankData);
+        (this.$refs.rollerTop as any).runRoller(data.fupinPeopleList);
+        (this.$refs.rollerLB as any).runRoller(data.serviceList);
         this.skuDetail = data.skuDetail;
 
         this.trade.list = data.trade.slice(0,5);
         this.tradeTotal = this.getFormateNumber(data.tradeTotal, 4)
 
         this.areaSale.list = data.areaSale
-        this.sale = data.sale;
 
         this.orderArea.list = data.orderArea;
         (this.$refs.PieDoughnut1 as any).drawEchart(data.rate1);
@@ -449,8 +479,8 @@ export default class Index extends Vue {
     height: 5.04rem;
     background-image: url('../assets/img/lb.png')
   }
-  .mm {
-    height: 1.29rem;
+  .m {
+    height: 9.74rem;
   }
   .mb {
     height: 2.29rem;

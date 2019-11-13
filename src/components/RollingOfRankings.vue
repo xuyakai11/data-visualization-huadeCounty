@@ -1,5 +1,8 @@
 <template>
-  <div class="roll-wrap" ref="rollElement" :style="{height: lenEach*eachHeight+'rem'}">
+  <div class="roll-wrap" ref="rollElement" :style="{height: (lenEach+1)*eachHeight+'rem'}">
+    <div class="list-title title">
+      <div v-for="item in titleList" :key="item">{{item}}</div>
+    </div>
     <div
       class="list"
       v-for="(item,i) in datas"
@@ -7,9 +10,7 @@
       :style="{transform: 'translate(0, '+eachHeight*(lenEach + i)+'rem)'}"
       :data-index="i"
     >
-      <div class="circle">{{i+1}}</div>
-      <div class="ellipsis">{{item.name}}</div>
-      <div :class="{1:'pink',2:'yellow',3:'red',4:'orange',5:'pdd',6:'a1688'}[item.type]">{{{1:'京东',2:'淘宝',3:'天猫',4:'苏宁',5:'拼多多',6:'1688'}[item.type]}}店</div>
+      <div class="ellipsis" v-for="key in dataName">{{item[key]}}</div>
     </div>
   </div>
 </template>
@@ -21,13 +22,14 @@ interface SelectProtected {
 
 @Component
 export default class RollingOfRankings extends Vue {
-  // @Prop()private datas!: any;
+  @Prop()private lenEach: number;
+  @Prop()private titleList: Array<string>;
+  @Prop()private dataName: Array<string>;
   datas: Array<any> = []
   timer: number = 0; // 定时器
   timerDuration: number = 12000; // 定时器持续时长(s)
   // timerDurationNumber: number = 60000; // 每间隔n秒更新数据
-  lenEach:number = 6
-  eachHeight: number = .44
+  eachHeight: number = .4
   animationDone:boolean =  true
   
   runRoller(data:any) {
@@ -100,17 +102,22 @@ export default class RollingOfRankings extends Vue {
     overflow: hidden;
     border-radius: .08rem;
   }
+  .title {
+    color: #04172E;
+    font-weight: 600;
+  }
   .list-title{
     overflow: hidden;
     display: flex;
     align-items: center;
-
+    background: rgba(0,228,255,.5);
     &>div{
-      line-height: .44rem;
-      text-align: left;
+      flex: 1 0 16.66%;
+      line-height: .4rem;
+      text-align: center;
     }
     .ellipsis {
-      flex-basis: 3.4rem;
+      // flex-basis: 1rem;
     }
     .circle{
       flex-basis: .26rem;
@@ -119,7 +126,6 @@ export default class RollingOfRankings extends Vue {
       margin: 0 .14rem 0 .1rem;
       line-height: .26rem;
       text-align: center;
-      font-size: .14rem;
       border-radius: .02rem;
       color: rgba(161,203,255,1);
       background:rgba(21,48,100,1)
@@ -130,19 +136,12 @@ export default class RollingOfRankings extends Vue {
     position: absolute;
     width: 100%;
     transition: transform .8s cubic-bezier(0, .3, .58, 1); 
-    background: rgba(1,15,48,.5);
+    background: transparent;
     &:nth-child(2n+1){
-      background: rgba(0,100,188,.2)
+      background: rgba(0,228,255,.1)
     }
     &>div:last-child {
-      width: .62rem;
-      height: .26rem;
-      margin-right: .15rem;
-      font-size: .14rem;
-      line-height: .28rem;
-      text-align: center;
-      color: #fff;
-      border-radius: .04rem;
+      color:rgba(233,127,103,1)
     }
   }
   .pink {
