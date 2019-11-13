@@ -1,0 +1,205 @@
+{
+  "code": 200,
+  "data": {
+    "fupinNumber": 12345,
+    "fupinMoney": 12345.12,
+    "fupinPeopleList": [
+      {
+        "nameTown": "长顺镇",
+        "name": "张三",
+        "dayIncome": 123,
+        "monthIncome": 1234,
+        "yearIncome": 12345,
+        "increase": 53.00
+      },
+      {
+        "nameTown": "公腊胡洞乡",
+        "name": "张三",
+        "dayIncome": 123,
+        "monthIncome": 1234,
+        "yearIncome": 12345,
+        "increase": 53.00
+      },
+      {
+        "nameTown": "长顺镇",
+        "name": "张三",
+        "dayIncome": 123,
+        "monthIncome": 1234,
+        "yearIncome": 12345,
+        "increase": 53.00
+      }
+    ],
+    "fupinRateList": [
+      {
+        "nameTown": "长顺镇",
+        "number": 10
+      },
+      {
+        "nameTown": "公腊胡洞乡",
+        "number": 50
+      }
+    ],
+    "serviceMoney": 12324.11,
+    "serviceMoneyToday": 1245.12,
+    "serviceList": [
+      {
+        "nameTown": "长顺镇",
+        "eleFee": 123,
+        "phoneFee": 1234,
+        "buying": 12345,
+        "helpMoney": 53.00,
+        "expressFee": 53.00
+      },{
+        "nameTown": "长顺镇",
+        "eleFee": 123,
+        "phoneFee": 1234,
+        "buying": 12345,
+        "helpMoney": 53.00,
+        "expressFee": 53.00
+      },{
+        "nameTown": "长顺镇",
+        "eleFee": 123,
+        "phoneFee": 1234,
+        "buying": 12345,
+        "helpMoney": 53.00,
+        "expressFee": 53.00
+      }
+    ],
+    "tradeTotal": 1234.56,
+    "sale":{
+      "dayMoney":100,
+      "dayTrend": "-10",
+      "monthMoney":1000,
+      "monthTrend": "-10",
+      "totalMoney":10000,
+      "totalTrend": "+10"
+    },
+    "tradeRankData": [
+      {
+        "name": "怀慈堂滋补品旗舰店",
+        "type": "生鲜",
+        "tradeNumber": 1000,
+        "skuNumber": 2,
+        "price": 1.2,
+        "increase": 12
+      },{
+        "name": "怀慈堂滋补品旗舰店",
+        "type": "生鲜",
+        "tradeNumber": 1000,
+        "skuNumber": 2,
+        "price": 1.2,
+        "increase": 12
+      },{
+        "name": "怀慈堂滋补品旗舰店",
+        "type": "生鲜",
+        "tradeNumber": 1000,
+        "skuNumber": 2,
+        "price": 1.2,
+        "increase": 12
+      },{
+        "name": "怀慈堂滋补品旗舰店",
+        "type": "生鲜",
+        "tradeNumber": 1000,
+        "skuNumber": 2,
+        "price": 1.2,
+        "increase": 12
+      },{
+        "name": "怀慈堂滋补品旗舰店",
+        "type": "生鲜",
+        "tradeNumber": 1000,
+        "skuNumber": 2,
+        "price": 1.2,
+        "increase": 12
+      }
+    ],
+    
+    "skuTypeRate": [
+      {
+        "name": "酒类",
+        "value": 98
+      },
+      {
+        "name": "美妆",
+        "value": 90
+      },
+      {
+        "name": "生鲜",
+        "value": 70
+      }
+    ],
+    "platformRate": [
+      {
+        "name": "京东",
+        "value": 98
+      },
+      {
+        "name": "天猫",
+        "value": 90
+      },
+      {
+        "name": "淘宝",
+        "value": 70
+      },
+      {
+        "name": "苏宁",
+        "value": 50
+      }
+    ],
+    "express":{
+      "today": {
+        "in": 123456,
+        "out": 32432,
+        "county":[
+          {"value":300,"name":"甘州县"},
+          {"value":300, "name":"临泽县"},
+          {"value":400, "name":"山丹县"},
+          {"value":400, "name":"民乐县"},
+          {"value":400, "name":"高台县"},
+          {"value":400, "name":"肃南县"}
+        ]
+      },
+      "month": {
+        "in": 123456,
+        "out": 32432,
+        "county":[
+          {"value":300,"name":"甘州县"},
+          {"value":300, "name":"临泽县"},
+          {"value":400, "name":"山丹县"},
+          {"value":400, "name":"民乐县"},
+          {"value":400, "name":"高台县"},
+          {"value":400, "name":"肃南县"}
+        ]
+      },
+      "year": {
+        "in": 123456,
+        "out": 32432,
+        "county":[
+          {"value":300,"name":"甘州县"},
+          {"value":300, "name":"临泽县"},
+          {"value":400, "name":"山丹县"},
+          {"value":400, "name":"民乐县"},
+          {"value":400, "name":"高台县"},
+          {"value":400, "name":"肃南县"}
+        ]
+      }
+    },
+    "skuDetail":[
+      {
+      "name": "土豆",
+      "price": 5,
+      "rate": -10,
+      "yearData":[1,2,3,4,5,6,7,8,9,10,11,12]
+      },{
+      "name": "番茄",
+      "price": 5,
+      "rate": 10,
+      "yearData":[1,2,3,4,5,6,7,8,9,10,11,12]
+      },{
+      "name": "鸡蛋",
+      "price": 3,
+      "rate": 5.22,
+      "yearData":[1,2,3,4,5,6,7,8,9,10,11,12]
+      }
+    ]
+  }
+}

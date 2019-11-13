@@ -12,8 +12,8 @@
           <h3>扶贫数据</h3>
           <div class="lt-head">
             <div class="left">
-              <h4>累计扶贫人数：</h4><div class="number">{{SKURankDataTotal[0]}}</div>
-              <h4>累计扶贫金额：</h4><div class="number"><div>{{SKURankDataTotal[0]}}</div><div class="decimal"><span>RMB / 万元</span><div>.{{SKURankDataTotal[1]}}</div></div></div>
+              <h4>累计扶贫人数：</h4><div class="number">{{tradeTotal[0]}}</div>
+              <h4>累计扶贫金额：</h4><div class="number"><div>{{tradeTotal[0]}}</div><div class="decimal"><span>RMB / 万元</span><div>.{{tradeTotal[1]}}</div></div></div>
             </div>
             <div class="pie">
             </div>
@@ -24,7 +24,7 @@
           <h3>站点便民服务</h3>
           <div class="money-wrap">
             <h4>累计便民服务总金额：</h4>
-            <div class="money"><div v-for="item in SKURankDataTotal[0]">{{item}}</div><i></i><div class="decimal"><span>RMB / 万元</span><div v-for="item in SKURankDataTotal[1]">{{item}}</div></div></div>
+            <div class="money"><div v-for="item in tradeTotal[0]">{{item}}</div><i></i><div class="decimal"><span>RMB / 万元</span><div v-for="item in tradeTotal[1]">{{item}}</div></div></div>
             <div class="today">今日便民服务金额：<span>26837.34</span>RMB / 元
             </div>
           </div>
@@ -33,7 +33,7 @@
       </div>
       <div class="main-middle">
         <div class="common mm">
-          <h3>张掖市电商销售额统计</h3>
+          <h3>电商交易数据</h3>
           <div class="saleStatistics">
             <div>
               <div class="title">日销售总额</div>
@@ -76,13 +76,8 @@
         </div>
       </div>
       <div class="main-right">
-        <div class="common lt">
-          <h3>历年销售额统计（万元）</h3>
-          <BarAndLine :datas="yearStatistics" />
-        </div>
         <div class="common r inout">
-          <h3>本年度全市快递数据累计统计</h3>
-          <h4 class="title">张掖市快递出入件统计：</h4>
+          <h3>快递上下行数据</h3>
           <div class="top">
             <div>
             <img src="../assets/img/in.png" alt="">
@@ -93,14 +88,18 @@
             出件<strong style="color:#fb497c">{{express.out}}</strong>件
             </div>
           </div>
+          <BarAndLine :datas="skuDetail" />
+        </div>
+        <div class="common r">
+          <h3>大宗商品交易数据</h3>
           <ul>
             <li v-for="item in express.county" :key="item.name">
               <div class="county">{{item.name}}：</div><div class="content"><strong>{{item.value}}</strong>件</div>
             </li>
           </ul>
         </div>
-        <div class="common lb">
-          <h3 style="margin-bottom: .25rem">订单地域分布</h3>
+        <div class="common r">
+          <h3 style="margin-bottom: .25rem">培训统计</h3>
           <DiyBar :datas="orderArea" />
         </div>
       </div>
@@ -132,8 +131,8 @@ interface echartData{
   }
   })
 export default class Index extends Vue {
-  SKURankDataTotal = ['012345','21'];
-  tradeTotal = ['1234','11'];
+  tradeTotal: Array<string> = ['012345','21'];
+  tradeTotal: Array<string> = ['1234','11'];
   sale:any = {}
   express:any = {}
   orderArea: any = {
@@ -151,14 +150,35 @@ export default class Index extends Vue {
     bg: 'linear-gradient(180deg, #87E8FF 0%, #4FCCFF 100%)',
     list: []
   } 
-  SKURankData: Array<object> = []
-  yearStatistics: Array<object> = []
+  tradeRankData: Array<object> = []
+  skuDetail: Array<object> = []
 
   
   mounted() {
     this.getData()
   }
   
+  getRandomExpress(express:any) {
+    let getRandom = (min:number, max:number) => {
+      return Math.random()*(max-min) + min;
+    }
+    setInterval(()=>{
+      let n:number = getRandom(1,5),
+          cur:number = +express.in + n;
+      if(cur > express.in + 1000) {
+        cur = express.in
+      }
+      this.express = cur;
+    },300000);
+    setInterval(()=>{
+      let n:number = getRandom(1,5),
+          cur:number = +express.out + n;
+      if(cur > express.out + 1000) {
+        cur = express.out
+      }
+      this.express = cur;
+    },280000);
+  }
 
   getFormateNumber(n:number, len:number):Array<string> {
     let y = String(n).split('.');
@@ -173,22 +193,24 @@ export default class Index extends Vue {
 
   getData (): void {
     // (this as any).$get('http://47.92.72.173/api/Zhangyedata/getDataInfo').then((r:any)=>{
-    (this as any).$get('zhangye.json').then((r:any)=>{
+    (this as any).$get('huade.json').then((r:any)=>{
       r = r.data;
       if(r. code === 200) {
         console.log(r.data);
         let data = r.data;
-        this.SKURankDataTotal = this.getFormateNumber(data.SKURankDataTotal, 5);
-        (this.$refs.rollerTop as any).runRoller(data.SKURankData);
-        (this.$refs.roller as any).runRoller(data.SKURankData);
-        this.yearStatistics = data.yearStatistics;
+        this.tradeTotal = this.getFormateNumber(data.tradeTotal, 5);
+        this.express = data.express
+        this.getRandomExpress(data.express);
+
+        (this.$refs.rollerTop as any).runRoller(data.tradeRankData);
+        (this.$refs.roller as any).runRoller(data.tradeRankData);
+        this.skuDetail = data.skuDetail;
 
         this.trade.list = data.trade.slice(0,5);
         this.tradeTotal = this.getFormateNumber(data.tradeTotal, 4)
 
         this.areaSale.list = data.areaSale
         this.sale = data.sale;
-        this.express = data.express
 
         this.orderArea.list = data.orderArea;
         (this.$refs.PieDoughnut1 as any).drawEchart(data.rate1);
