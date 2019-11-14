@@ -1,12 +1,19 @@
 <template>
   <div class="wrap">
     <div class="banner">
-      <h1>化德县电子商务数据展示平台</h1>
-      <div class="banner-img">
-        各数据综合展示屏
+      <!-- <img src="../assets/img/banner.gif" alt=""> -->
+      <div class="time">
+        <strong>{{timer[0]}}</strong> - <strong>{{timer[1]}}</strong> - <strong>{{timer[2]}}</strong>
+        <strong class="week">周{{timer[6]}}</strong>
+        <strong>{{timer[3]}}:</strong>
+        <strong>{{timer[4]}}:</strong>
+        <strong>{{timer[5]}}</strong>
       </div>
     </div>
     <div class="main">
+      <!-- <div class="weather">
+
+      </div> -->
       <div class="main-left">
         <div class="common lt">
           <h3>扶贫数据</h3>
@@ -23,7 +30,8 @@
               </div>
             </div>
             <div class="pie"> 
-
+              <h4>各乡镇扶贫人数占比</h4>
+              <PieDoughnut ref="PieDoughnut3" width="1.1rem" clasName="word-in-left" />
             </div>
           </div>
           <RollingOfRankings ref="rollerTop" :lenEach="4" :titleList="['乡村','人名','日收入','月收入','年收入','增长']" :dataName="['nameTown','name','dayIncome','monthIncome','yearIncome','increase']" />
@@ -43,11 +51,12 @@
             <div class="today">今日便民服务金额：<span>{{allData.serviceMoneyToday}}</span>RMB / 元
             </div>
           </div>
-          <RollingOfRankings ref="rollerLB" :lenEach="6" :titleList="['乡村','电费','话费','代买代卖','助农取款','快递']"  :dataName="['nameTown','eleFee','phoneFee','buying','helpMoney','expressFee']" />
+          <RollingOfRankings clasName="roll-left-bottom" ref="rollerLB" :lenEach="6" :titleList="['乡村','电费','话费','代买代卖','助农取款','快递']"  :dataName="['nameTown','eleFee','phoneFee','buying','helpMoney','expressFee']" />
+          <img src="../assets/img/border.gif" alt="">
         </div>
       </div>
       <div class="main-middle">
-        <div class="common m">
+        <div class="common mid">
           <h3>电商交易数据</h3>
           <div class="money-wrap">
             <h4>电商销售累计总额：</h4>
@@ -58,63 +67,68 @@
                 <div v-for="item in tradeTotal[1]">{{item}}</div>
               </div>
             </div>
+            <div class="saleStatistics">
+              <div>
+                <div class="title">日销售总额</div>
+                <div class="sale-money">
+                  <div><span>{{sale.dayMoney}}</span>万元</div>
+                  <div class="rate"><template v-if="sale.dayTrend>0">+</template>{{sale.dayTrend}}%
+                    <img src="../assets/img/up.png" v-if="sale.dayTrend>=0" alt="">
+                    <img src="../assets/img/down.png" v-else alt="">
+                  </div>
+                </div>
+                
+              </div>
+              <div>
+                <div class="title">月销售总额</div>
+                <div class="sale-money">
+                  <div><span style="color: #FFC760;">{{sale.monthMoney}}</span>万元</div>
+                  <div class="rate"><template v-if="sale.monthTrend>0">+</template>{{sale.monthTrend}}%
+                    <img src="../assets/img/up.png" v-if="sale.monthTrend>=0" alt="">
+                    <img src="../assets/img/down.png" v-else alt="">
+                  </div>
+                </div>
+                
+              </div>
+              <div>
+                <div class="title">年销售总额</div>
+                <div class="sale-money">
+                  <div><span style="color: #EC7751;">{{sale.totalMoney}}</span>万元</div>
+                  <div class="rate"><template v-if="sale.totalTrend>0">+</template>{{sale.totalTrend}}%
+                    <img src="../assets/img/up.png" v-if="sale.totalTrend>=0" alt="">
+                    <img src="../assets/img/down.png" v-else alt="">
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="saleStatistics">
+          <div class="mid-in-bottom">
             <div>
-              <div class="title">日销售总额</div>
-              <div class="sale-money">
-                <div><span>{{sale.dayMoney}}</span>万元</div>
-                <div class="rate"><template v-if="sale.dayTrend>0">+</template>{{sale.dayTrend}}%
-                  <img src="../assets/img/up.png" v-if="sale.dayTrend>=0" alt="">
-                  <img src="../assets/img/down.png" v-else alt="">
-                </div>
-              </div>
-              
+              <h4>商品类型占比</h4>
+              <PieDoughnut ref="PieDoughnut1" width="1.58rem" />
+              <h4 style="margin-top: .3rem">平台占有率占比</h4>
+              <PieDoughnut ref="PieDoughnut2" width="1.58rem" />
             </div>
-            <div>
-              <div class="title">月销售总额</div>
-              <div class="sale-money">
-                <div><span style="color: #FFC760;">{{sale.monthMoney}}</span>万元</div>
-                <div class="rate"><template v-if="sale.monthTrend>0">+</template>{{sale.monthTrend}}%
-                  <img src="../assets/img/up.png" v-if="sale.monthTrend>=0" alt="">
-                  <img src="../assets/img/down.png" v-else alt="">
-                </div>
-              </div>
-              
-            </div>
-            <div>
-              <div class="title">年销售总额</div>
-              <div class="sale-money">
-                <div><span style="color: #EC7751;">{{sale.totalMoney}}</span>万元</div>
-                <div class="rate"><template v-if="sale.totalTrend>0">+</template>{{sale.totalTrend}}%
-                  <img src="../assets/img/up.png" v-if="sale.totalTrend>=0" alt="">
-                  <img src="../assets/img/down.png" v-else alt="">
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="common mb" style="padding:0">
-            <h3>主营产品占比</h3>
-            <PieDoughnut ref="PieDoughnut1" />
+            <RollingOfRankings clasName="roll-mid-in-bottom" ref="rollerMidInBottom" :lenEach="15" :titleList="['店名','商品类型','交易量','商品数量','平均单价','增长']"  :dataName="['name','type','tradeNumber','skuNumber','price','increase']" />
           </div>
         </div>
       </div>
       <div class="main-right">
-        <div class="common r inout">
+        <div class="common right-top inout">
           <h3>快递上下行数据</h3>
           <div class="top">
             <div>
             <img src="../assets/img/in.png" alt="">
-            入件<strong>{{express.in}}</strong>件
+            入件<strong>{{express[expressType].in}}</strong>件
             </div>
             <div>
             <img src="../assets/img/out.png" alt="">
-            出件<strong style="color:#fb497c">{{express.out}}</strong>件
+            出件<strong style="color:#fb497c">{{express[expressType].out}}</strong>件
             </div>
           </div>
           <BarAndLine :datas="skuDetail" />
         </div>
-        <div class="common r">
+        <div class="common right-middle">
           <h3>大宗商品交易数据</h3>
           <ul>
             <li v-for="item in express.county" :key="item.name">
@@ -122,9 +136,10 @@
             </li>
           </ul>
         </div>
-        <div class="common r">
+        <div class="common right-bottom">
           <h3 style="margin-bottom: .25rem">培训统计</h3>
           <DiyBar :datas="orderArea" />
+          <img src="../assets/img/border.gif" alt="">
         </div>
       </div>
     </div>
@@ -160,15 +175,9 @@ export default class Index extends Vue {
   fupinMoney: Array<string> = ['012345','21'];
   serviceMoney: Array<string> = ['012345','21'];
   sale:any = {}
-  express:any = {}
   orderArea: any = {
     h: 2.33,
     bg: 'linear-gradient(0deg, #FA3434 0%, #F7B95E 100%)',
-    list: []
-  } 
-  trade: any = {
-    h: 1,
-    bg: 'linear-gradient(180deg, #87E8FF 0%, #4FCCFF 100%)',
     list: []
   } 
   areaSale: any = {
@@ -179,41 +188,78 @@ export default class Index extends Vue {
   tradeRankData: Array<object> = []
   skuDetail: Array<object> = []
 
-  
+  timer: Array<string> = []
+  created () {
+    let t = setInterval(()=>{
+      this.timerFunction()
+    },1000)
+  }
+
+  timerFunction (): void {
+    let nowDate = new Date(),
+        weekDay: any = {0:'日',1:'一',2:'二',3:'三',4:'四',5:'五',6:'六'},
+        y = nowDate.getFullYear()+'',
+        m = nowDate.getMonth() + 1,
+        d = nowDate.getDate(),
+        h = nowDate.getHours(),
+        mi = nowDate.getMinutes(),
+        s = nowDate.getSeconds(),
+        week = weekDay[nowDate.getDay()],
+        fm = (v: number): string => {
+          return v < 10 ? '0' + v : '' + v;
+        };
+    this.timer = [y,fm(m),fm(d),fm(h),fm(mi),fm(s),week]
+  } 
+
   mounted() {
     this.getData()
   }
-  
+  setIntervIn:number = 0;
+  setIntervOut:number = 0;
+  expressType:string = 'today'
+  express:any = {'today':{}}
   getRandomExpress(express:any) {
     let getRandom = (min:number, max:number) => {
       return Math.random()*(max-min) + min;
     }
-    setInterval(()=>{
+    this.setIntervIn = setInterval(()=>{
       let n:number = getRandom(1,5),
-          cur:number = +express.in + n;
-      if(cur > express.in + 1000) {
-        cur = express.in
+          cur:number = +this.express[this.expressType].in + n;
+      if(cur > express[this.expressType].in + 1000) {
+        cur = express[this.expressType].in
       }
-      this.express = cur;
-    },300000);
-    setInterval(()=>{
+      this.express[this.expressType].in = cur;
+    },30000);
+    this.setIntervOut = setInterval(()=>{
       let n:number = getRandom(1,5),
-          cur:number = +express.out + n;
-      if(cur > express.out + 1000) {
-        cur = express.out
+          cur:number = +this.express[this.expressType].out + n;
+      if(cur > express[this.expressType].out + 1000) {
+        cur = express[this.expressType].out
       }
-      this.express = cur;
-    },280000);
+      this.express[this.expressType].out = cur;
+    },28000);
+  }
+  getRandomService(money:number) {
+    let getRandom = (min:number, max:number) => {
+      return Math.random()*(max-min) + min;
+    }
+    setInterval(()=>{
+      let n:number = getRandom(0,1),
+          cur:number = +this.serviceMoney[0]+ +this.serviceMoney[1]/100 + n;
+      if(cur > money + 100) {
+        cur = money
+      }
+      this.serviceMoney = this.getFormateNumber(cur, 5);
+    },30000);
   }
 
   getFormateNumber(n:number, len:number):Array<string> {
-    let y = String(n).split('.');
+    let y = n.toFixed(2).split('.');
     let int = y[0],
         l = y[1]||'00';
     l = l.length < 2 ? l + '0' : l;
     let zero = int.length < len ? len - int.length : 0;
     int = '0'.repeat(zero)+int;
-    console.log([int,l])
     return [int,l];
   }
 
@@ -228,24 +274,31 @@ export default class Index extends Vue {
         this.tradeTotal = this.getFormateNumber(data.tradeTotal, 5);
         this.fupinMoney = this.getFormateNumber(data.fupinMoney, 5);
         this.serviceMoney = this.getFormateNumber(data.serviceMoney, 5);
+        this.getRandomService(data.serviceMoney)
+
         this.sale = data.sale;
 
-        this.express = data.express
+        this.express = data.express;
         this.getRandomExpress(data.express);
-
-        (this.$refs.rollerTop as any).runRoller(data.fupinPeopleList);
-        (this.$refs.rollerLB as any).runRoller(data.serviceList);
+        let index = 0;
+        setInterval(()=>{
+          index = index > 2 ? 0 : index + 1;
+          this.expressType = ['today','week','month','year'][index]
+        },30000);
+        this.$nextTick(()=>{
+          (this.$refs.rollerTop as any).runRoller(data.fupinPeopleList);
+          (this.$refs.rollerLB as any).runRoller(data.serviceList);
+          (this.$refs.rollerMidInBottom as any).runRoller(data.tradeRankData);
+        });
         this.skuDetail = data.skuDetail;
-
-        this.trade.list = data.trade.slice(0,5);
         this.tradeTotal = this.getFormateNumber(data.tradeTotal, 4)
 
         this.areaSale.list = data.areaSale
 
         this.orderArea.list = data.orderArea;
-        (this.$refs.PieDoughnut1 as any).drawEchart(data.rate1);
-        (this.$refs.PieDoughnut2 as any).drawEchart(data.rate2);
-        (this.$refs.PieDoughnut3 as any).drawEchart(data.rate3);
+        (this.$refs.PieDoughnut1 as any).drawEchart(data.skuTypeRate);
+        (this.$refs.PieDoughnut2 as any).drawEchart(data.platformRate);
+        (this.$refs.PieDoughnut3 as any).drawEchart(data.fupinRateList);
       }
     });
     
@@ -255,46 +308,97 @@ export default class Index extends Vue {
 <style lang="scss" scoped>
   $yellow: #FFC760;
   .wrap{
+    position: relative;
     box-sizing: border-box;
     min-height: 100vh;
     padding: .3rem;
     background: url('../assets/img/bg.jpg') 0 0 no-repeat;
     background-size: cover;
   }
+  
   .banner {
-    display: flex;
-    h1 {
-      font-size: .32rem;
-      font-weight: 600;
-    }
-    .banner-img {
-      width: 11.54rem;
-      height: .42rem;
-      padding-left: 2.16rem;
+    position: absolute;
+    // left: 9.7rem;
+    left: .7rem;
+    top: .3rem;
+    right: 4.8rem;
+    height: .78rem;
+    background: url('../assets/img/banner.gif') left bottom no-repeat / auto .6rem;
+    .time {
+      margin-top: -.1rem;
+      text-align: right;
       font-size: .24rem;
-      line-height: .38rem;
-      background: url('../assets/img/banner.png') 0 -.33rem no-repeat / 100% auto;
+      strong {
+        font-weight: 500;
+      }
+      .week{
+        padding: 0 .3rem;
+      }
     }
   }
   .main {
     display: flex;
     justify-content: space-between
   }
+  .weather {
+    width: 8.7rem;
+    height: 10.56rem;
+    background: url('../assets/img/weather.png') no-repeat center center / 100% 100%;
+  }
   .main-left{
     width: 5.08rem;
-    margin-top: .22rem;
+    margin-top: .76rem;
   }
   .main-middle{
     width: 8.7rem;
-    margin-top: .22rem;
+    margin-top: .46rem;
+    .common {
+      h3 {
+        top: .1rem;
+        font-size: .32rem;
+        line-height: .42rem;
+      }
+      .money-wrap {
+        margin-top: .36rem;
+      }
+      .money {
+        &>div {
+          height: .8rem;
+          width: .64rem;
+          font-weight: 600;
+          font-size: .7rem;
+          line-height: .8rem;
+          border-radius: .08rem;
+        }
+        i {
+          height: .8rem;
+        }
+        .decimal {
+          height: .8rem;
+          width: .9rem;
+          padding-top: .32rem;
+          div {
+            height: .48rem;
+            line-height: .48rem;
+            width: .38rem;
+            font-size: .42rem;
+          }
+          span {
+            left: 0;
+            top: .04rem;
+            font-size: .18rem;
+          }
+        }
+      }
+    }
   }
   .main-right {
     width: 4.2rem;
-    margin-top: -.42rem;
   }
   .lt-head {
     display: flex;
     margin-bottom: .14rem;
+    flex: auto;
     .left {
       display: flex;
       flex-wrap: wrap;
@@ -354,13 +458,20 @@ export default class Index extends Vue {
         }
       }
     }
+    .pie {
+      margin-left: .2rem;
+      h4 {
+        margin-bottom: .1rem;
+        font-weight: 600;
+      }
+    }
   }
   .common {
     position: relative;
     padding: .32rem .2rem 0 .2rem;
     margin-bottom: .1rem;
     width: 100%;
-    background: url('../assets/img/lt.png') no-repeat center center / 100% 100%;
+    background: url('') no-repeat center center / 100% 100%;
     h3 {
       position: absolute;
       top: -.08rem;
@@ -405,7 +516,6 @@ export default class Index extends Vue {
       margin: .12rem 0;
       color: $yellow;
       &>div,i {
-        // float: left;
         margin-right: .1rem;
       }
 
@@ -467,52 +577,52 @@ export default class Index extends Vue {
   .lt {
     height: 4.1rem;
     margin-bottom: .3rem;
+    background-image: url('../assets/img/lt.png')
   }
-  .r {
+  .right-top,.right-middle,.right-bottom {
+    background-image: url('../assets/img/r.png')
+  }
+  .right-bottom {
+    position: relative;
+    img {
+      position: absolute;
+      bottom: -.05rem;
+      right: 0;
+      height: .6rem;
+      width: 100%; 
+    }
+  }
+  .right-top {
     height: 2.69rem;
     .money {
       margin-top: .17rem
     }
-    background-image: url('../assets/img/r.png')
   }
   .lb {
+    position: relative;
     height: 5.04rem;
-    background-image: url('../assets/img/lb.png')
-  }
-  .m {
-    height: 9.74rem;
-  }
-  .mb {
-    height: 2.29rem;
-    width: 2.81rem;
-    float: left;
-    h3 {
-      margin-top: .02rem;
-    }
-  }
-  .earth {
-    position: absolute;
-    top: .85rem;
-    left: .18rem;
-    width: 1.6rem;
-    height: 1.6rem;
+    background-image: url('../assets/img/lb.png');
     img {
-      width: 100%;
+      position: absolute;
+      bottom: -.05rem;
+      right: 0;
+      height: .6rem;
+      width: 100%; 
     }
+  }
+  .mid {
+    height: 9.74rem;
+    background-image: url('../assets/img/m.png')
   }
   .saleStatistics {
-    overflow: hidden;
-    margin-top: .29rem;
+    margin-top: .2rem;
+    display: flex;
     &>div{
+      flex: auto;
       position: relative;
-      float: left;
-      width: 2.63rem;
       padding-left: .3rem;
       &:first-child {
         padding-left: 0;
-      }
-      &:nth-child(2) {
-        width: 2.98rem; 
       }
       &:last-child {
         padding-left: .28rem;
@@ -532,15 +642,10 @@ export default class Index extends Vue {
       }
     }
     .title {
-      margin-bottom: .18rem;
-      font-size: .16rem;
-      color: #FFF;
-      line-height: 1;
+      margin-bottom: .1rem;
     }
     .sale-money {
       overflow: hidden;
-      font-size: .16rem;
-      color: #fff;
       &>div{
         float: left;
         &:first-child {
@@ -555,7 +660,7 @@ export default class Index extends Vue {
         font-size: .3rem;
         font-weight: 600;
         padding-right: .04rem;
-        color: #17D0AC;
+        color: #4E98FF;
         line-height: .24rem;
       }
       img {
@@ -565,6 +670,20 @@ export default class Index extends Vue {
       }
     }
     
+  }
+  .mid-in-bottom {
+    display: flex;
+    &>div {
+      flex: auto;
+    }
+    h4 {
+      font-weight: 600;
+      margin-bottom: .24rem;
+    }
+    .roll-wrap {
+      margin-left: .2rem;
+      flex-basis: 5.86rem;
+    }
   }
   .inout {
     .title {

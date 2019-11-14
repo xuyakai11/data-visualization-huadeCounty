@@ -1,16 +1,11 @@
 <template>
-	<div>
-		<div class="echart" ref="echart" style="width:2rem;height:1.2rem">
-		</div>
+	<div :class="clasName">
 		<div class="list">
-			<div v-for="(item,index) in listName.slice(0,3)" :key="index">
+			<div v-for="(item,index) in listName" :key="index">
 				<span :style="{background:colorList[index]}"></span>{{item}}
 			</div>
 		</div>
-		<div class="list" :class="{duble: listName.length>3}">
-			<div v-for="(item,index) in listName.slice(3)" :key="index">
-				<span :style="{background:colorList.slice(3)[index]}"></span>{{item}}
-			</div>
+		<div class="echart" ref="echart" :style="{width:width,height:width}">
 		</div>
 	</div>
 </template>
@@ -23,14 +18,15 @@ import 'echarts/lib/component/title';
 
 @Component
 export default class PieDoughnut extends Vue {
-	// @Prop()private datas!: any
+	@Prop() private width!:string
+	@Prop() private clasName?: string
 	// @Watch('datas', {deep: true})
 	// mounted() {
 	// 	if (!this.datas) return;
 	// 	this.drawChartBarBasic(this.datas.xAxisData, this.datas.seriesData)
 	// }
 	listName: Array<string> = []
-	colorList:Array<string> = ['#FB497C','#FFC760','#6FE621','#4FCCFF','#329AF9','#9990FA']
+	colorList:Array<string> = ['#1890ff','#13c2c2','#9270ca','#f6c74a','#e97f67','#d3f261']
 	baseFont: number = 10;
 	mounted() {
 		let doc:any = document.documentElement
@@ -67,7 +63,7 @@ export default class PieDoughnut extends Vue {
 					// name:'访问来源',
 					type:'pie',
 					// center:['50%','45%'],
-					radius: ['60%', '90%'],
+					radius: ['50%', '100%'],
 					silent: true,
 					hoverAnimation: false,
 					legendHoverLink: false,
@@ -76,7 +72,7 @@ export default class PieDoughnut extends Vue {
 							color:'#fff',
 							backgroundColor: 'rgba(0,0,0,.75)',
 							padding: 5,
-							show: true,
+							show: false,
 							position: 'inside',
 							formatter: function(r:any){return r.percent + '%'}
 						}
@@ -89,34 +85,33 @@ export default class PieDoughnut extends Vue {
 }
 </script>
 <style lang="scss" scoped>
+.word-in-left {
+	display: flex;
+	.list {
+		display: block;
+	}
+}
 .echart {
-	margin: .2rem auto .2rem;
+	margin: .1rem auto;
 }
 .list {
-	// display: flex;
-	// flex-wrap: wrap;
-	// align-items: center;
-	// justify-content: space-between;
-	// align-content: center;
-	text-align: center;
+	display: flex;
+	flex-wrap: wrap;
 	&>div {
 		position: relative;
-		// flex-basis: 33%;
-		display: inline-block;
-		padding-left: .2rem;
-		margin-bottom: .05rem;
+		flex-basis: 33.33%;
+		padding-left: .18rem;
+		margin-bottom: .1rem;
 		font-size: .12rem;
 		line-height: .16rem;
 		height: .16rem;
-		&:nth-child(3n-1){
-			margin: 0 .05rem;
-		}
 		span {
 			position: absolute;
 			left: 0;
-			top: .01rem;
-			width: .14rem;
-			height: .14rem;
+			top: .03rem;
+			width: .1rem;
+			height: .1rem;
+			border-radius: 50%;
 		}
 	}
 }

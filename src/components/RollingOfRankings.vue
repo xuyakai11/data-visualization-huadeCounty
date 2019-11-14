@@ -1,5 +1,5 @@
 <template>
-  <div class="roll-wrap" ref="rollElement" :style="{height: (lenEach+1)*eachHeight+'rem'}">
+  <div class="roll-wrap" :class="clasName" ref="rollElement" :style="{height: (lenEach+1)*eachHeight+'rem'}">
     <div class="list-title title">
       <div v-for="item in titleList" :key="item">{{item}}</div>
     </div>
@@ -10,7 +10,7 @@
       :style="{transform: 'translate(0, '+eachHeight*(lenEach + i)+'rem)'}"
       :data-index="i"
     >
-      <div class="ellipsis" v-for="key in dataName">{{item[key]}}</div>
+      <div class="ellipsis" v-for="(key, index) in dataName" :key="index">{{item[key]}}</div>
     </div>
   </div>
 </template>
@@ -22,9 +22,10 @@ interface SelectProtected {
 
 @Component
 export default class RollingOfRankings extends Vue {
-  @Prop()private lenEach: number;
-  @Prop()private titleList: Array<string>;
-  @Prop()private dataName: Array<string>;
+  @Prop() private clasName?: string;
+  @Prop() private lenEach!: number;
+  @Prop() private titleList!: Array<string>;
+  @Prop() private dataName!: Array<string>;
   datas: Array<any> = []
   timer: number = 0; // 定时器
   timerDuration: number = 12000; // 定时器持续时长(s)
@@ -142,6 +143,24 @@ export default class RollingOfRankings extends Vue {
     }
     &>div:last-child {
       color:rgba(233,127,103,1)
+    }
+  }
+  .roll-left-bottom {
+    .list {
+      &>div:last-child {
+        color:#00e4ff
+      }
+    }
+  }
+  .roll-mid-in-bottom{
+
+    .list,.list-title {
+      &>div {
+        flex-basis: 14.3%;
+        &:first-child {
+          flex-basis: 28.5%;
+        }
+      }
     }
   }
   .pink {

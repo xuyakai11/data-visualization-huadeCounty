@@ -10,7 +10,7 @@
         "dayIncome": 123,
         "monthIncome": 1234,
         "yearIncome": 12345,
-        "increase": 53.00
+        "increase": "53.00%"
       },
       {
         "nameTown": "公腊胡洞乡",
@@ -18,7 +18,7 @@
         "dayIncome": 123,
         "monthIncome": 1234,
         "yearIncome": 12345,
-        "increase": 53.00
+        "increase": "53.00%"
       },
       {
         "nameTown": "长顺镇",
@@ -26,7 +26,7 @@
         "dayIncome": 123,
         "monthIncome": 1234,
         "yearIncome": 12345,
-        "increase": 53.00
+        "increase": "53.00%"
       },
       {
         "nameTown": "长顺镇",
@@ -34,17 +34,17 @@
         "dayIncome": 123,
         "monthIncome": 1234,
         "yearIncome": 12345,
-        "increase": 53.00
+        "increase": "53.00%"
       }
     ],
     "fupinRateList": [
       {
-        "nameTown": "长顺镇",
-        "number": 10
+        "name": "长顺镇",
+        "value": 10
       },
       {
-        "nameTown": "公腊胡洞乡",
-        "number": 50
+        "name": "公腊胡洞乡",
+        "value": 50
       }
     ],
     "serviceMoney": 12324.11,
@@ -89,35 +89,35 @@
         "tradeNumber": 1000,
         "skuNumber": 2,
         "price": 1.2,
-        "increase": 12
+        "increase": "12.28%"
       },{
         "name": "怀慈堂滋补品旗舰店",
         "type": "生鲜",
         "tradeNumber": 1000,
         "skuNumber": 2,
         "price": 1.2,
-        "increase": 12
+        "increase": "12%"
       },{
         "name": "怀慈堂滋补品旗舰店",
         "type": "生鲜",
         "tradeNumber": 1000,
         "skuNumber": 2,
         "price": 1.2,
-        "increase": 12
+        "increase": "12%"
       },{
         "name": "怀慈堂滋补品旗舰店",
         "type": "生鲜",
         "tradeNumber": 1000,
         "skuNumber": 2,
         "price": 1.2,
-        "increase": 12
+        "increase": "12%"
       },{
         "name": "怀慈堂滋补品旗舰店",
         "type": "生鲜",
         "tradeNumber": 1000,
         "skuNumber": 2,
         "price": 1.2,
-        "increase": 12
+        "increase": "12%"
       }
     ],
     
@@ -132,6 +132,10 @@
       },
       {
         "name": "生鲜",
+        "value": 70
+      },
+      {
+        "name": "特产",
         "value": 70
       }
     ],
@@ -155,6 +159,18 @@
     ],
     "express":{
       "today": {
+        "in": 123456,
+        "out": 32432,
+        "county":[
+          {"value":300,"name":"甘州县"},
+          {"value":300, "name":"临泽县"},
+          {"value":400, "name":"山丹县"},
+          {"value":400, "name":"民乐县"},
+          {"value":400, "name":"高台县"},
+          {"value":400, "name":"肃南县"}
+        ]
+      },
+      "week": {
         "in": 123456,
         "out": 32432,
         "county":[

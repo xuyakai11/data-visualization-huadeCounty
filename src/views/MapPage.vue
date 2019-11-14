@@ -81,10 +81,11 @@ export default class MapPage extends Vue {
         strong {
           font-weight: 500;
         }
+        .week{
+          padding: 0 .3rem;
+        }
       }
-      .week{
-        padding: 0 .3rem;
-      }
+      
       p {
         font-weight: 600;
         font-size: .3rem;
