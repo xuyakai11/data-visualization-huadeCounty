@@ -31,7 +31,7 @@
             </div>
             <div class="pie"> 
               <h4>各乡镇扶贫人数占比</h4>
-              <PieDoughnut ref="PieDoughnut3" width="1.1rem" clasName="word-in-left" />
+              <PieDoughnut ref="PieDoughnut3" width="1.1rem" height="1.1rem" clasName="word-in-left" />
             </div>
           </div>
           <RollingOfRankings ref="rollerTop" :lenEach="4" :titleList="['乡村','人名','日收入','月收入','年收入','增长']" :dataName="['nameTown','name','dayIncome','monthIncome','yearIncome','increase']" />
@@ -48,7 +48,7 @@
                 <div v-for="item in serviceMoney[1]">{{item}}</div>
               </div>
             </div>
-            <div class="today">今日便民服务金额：<span>{{allData.serviceMoneyToday}}</span>RMB / 元
+            <div class="today">今日便民服务金额：<span>{{allData.serviceMoneyToday&&allData.serviceMoneyToday.toFixed(2)}}</span>RMB / 元
             </div>
           </div>
           <RollingOfRankings clasName="roll-left-bottom" ref="rollerLB" :lenEach="6" :titleList="['乡村','电费','话费','代买代卖','助农取款','快递']"  :dataName="['nameTown','eleFee','phoneFee','buying','helpMoney','expressFee']" />
@@ -105,40 +105,68 @@
           <div class="mid-in-bottom">
             <div>
               <h4>商品类型占比</h4>
-              <PieDoughnut ref="PieDoughnut1" width="1.58rem" />
+              <PieDoughnut ref="PieDoughnut1" width="1.58rem" height="1.58rem" />
               <h4 style="margin-top: .3rem">平台占有率占比</h4>
-              <PieDoughnut ref="PieDoughnut2" width="1.58rem" />
+              <PieDoughnut ref="PieDoughnut2" width="1.58rem" height="1.58rem" />
             </div>
             <RollingOfRankings clasName="roll-mid-in-bottom" ref="rollerMidInBottom" :lenEach="15" :titleList="['店名','商品类型','交易量','商品数量','平均单价','增长']"  :dataName="['name','type','tradeNumber','skuNumber','price','increase']" />
           </div>
         </div>
       </div>
       <div class="main-right">
-        <div class="common right-top inout">
+        <div class="common right-top">
           <h3>快递上下行数据</h3>
-          <div class="top">
-            <div>
-            <img src="../assets/img/in.png" alt="">
-            入件<strong>{{express[expressType].in}}</strong>件
+          <div class="inout">
+            <div class="inout-left">
+              {{{today:'今日',week:'本周',month:'本月',year:'本年'}[expressType]}}
             </div>
-            <div>
-            <img src="../assets/img/out.png" alt="">
-            出件<strong style="color:#fb497c">{{express[expressType].out}}</strong>件
+            <div class="inout-right">
+              <div>
+              <img src="../assets/img/in.png" alt="">
+              入件<strong>{{express[expressType].in}}</strong>件
+              </div>
+              <div>
+              <img src="../assets/img/out.png" alt="">
+              出件<strong style="color:#fb497c">{{express[expressType].out}}</strong>件
+              </div>
             </div>
           </div>
-          <BarAndLine :datas="skuDetail" />
+          <p>今日快递上下行累计数据：</p>
+          <BarBasic ref="barBasic" :datas="express[expressType].county" height="1.7rem"/>
         </div>
         <div class="common right-middle">
           <h3>大宗商品交易数据</h3>
-          <ul>
-            <li v-for="item in express.county" :key="item.name">
-              <div class="county">{{item.name}}：</div><div class="content"><strong>{{item.value}}</strong>件</div>
-            </li>
-          </ul>
+          <div class="right-middle-top">
+            <div class="right-middle-top-left">
+              {{skuDetail[skuIndex].name}}
+            </div>
+            <div class="right-middle-top-mid">
+              今日价格：<strong>{{skuDetail[skuIndex].price}}</strong>元 / 斤 
+            </div>
+            <div class="right-middle-top-right">
+              <img src="../assets/img/up.png" v-if="skuDetail[skuIndex].rate>=0" alt="">
+              <img src="../assets/img/down.png" v-else alt="">
+              {{skuDetail[skuIndex].rate}}%
+            </div>
+          </div>
+          <p>商品价格变化趋势：</p>
+          <LineBasic ref="lineBasic" :datas="skuDetail[skuIndex].yearData" height="1.7rem"/>
         </div>
         <div class="common right-bottom">
-          <h3 style="margin-bottom: .25rem">培训统计</h3>
-          <DiyBar :datas="orderArea" />
+          <h3>培训统计</h3>
+          <div class="right-bottom-top">
+            累计培训人数：<div>{{trainData.total}}</div>人
+          </div>
+          <PieWithScrollableLegend ref="PieDoughnut4" width="100%" height="1.38rem"/>
+          <div class="time-select">
+            <div class="prev" @click="yearMonthFunction(-1)"></div>
+            <div class="date">
+              <div :class="{active: index === 1}" v-for="(item,index) in timePicker" :key="index">
+                {{item.year}}年{{item.month}}月
+              </div>
+            </div>
+            <div class="next" @click="yearMonthFunction(1)"></div>
+          </div>
           <img src="../assets/img/border.gif" alt="">
         </div>
       </div>
@@ -148,10 +176,10 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import RollingOfRankings from '@/components/RollingOfRankings.vue'
-import DiyBar from '@/components/DiyBar.vue'
+import PieWithScrollableLegend from '@/components/chart/PieWithScrollableLegend.vue'
 import PieDoughnut from '@/components/chart/PieDoughnut.vue'
-import BarAndLine from '@/components/chart/BarAndLine.vue'
-import ChinaMap from '@/components/chart/ChinaMap.vue'
+import LineBasic from '@/components/chart/LineBasic.vue'
+import BarBasic from '@/components/chart/BarBasic.vue'
 import DiyBarHorizen from '@/components/DiyBarHorizen.vue'
 
 interface echartData{
@@ -164,9 +192,9 @@ interface echartData{
 @Component({
   components: {
   RollingOfRankings,
-  DiyBar,DiyBarHorizen,ChinaMap,
+  PieWithScrollableLegend,DiyBarHorizen,BarBasic,
   PieDoughnut,
-  BarAndLine
+  LineBasic
   }
   })
 export default class Index extends Vue {
@@ -186,13 +214,22 @@ export default class Index extends Vue {
     list: []
   } 
   tradeRankData: Array<object> = []
-  skuDetail: Array<object> = []
-
+  skuDetail: Array<object> = [{}]
+  skuIndex:number = 0
+  trainData: any = {}
+  timePicker: Array<any> = [{}]
   timer: Array<string> = []
+
   created () {
     let t = setInterval(()=>{
       this.timerFunction()
-    },1000)
+    },1000);
+
+    this.yearMonthFunction(0)
+  }
+  mounted() {
+    this.getData();
+    this.getTrainData()
   }
 
   timerFunction (): void {
@@ -210,20 +247,16 @@ export default class Index extends Vue {
         };
     this.timer = [y,fm(m),fm(d),fm(h),fm(mi),fm(s),week]
   } 
-
-  mounted() {
-    this.getData()
-  }
   setIntervIn:number = 0;
   setIntervOut:number = 0;
   expressType:string = 'today'
   express:any = {'today':{}}
+  getRandom(min:number, max:number) {
+    return Math.random()*(max-min) + min;
+  }
   getRandomExpress(express:any) {
-    let getRandom = (min:number, max:number) => {
-      return Math.random()*(max-min) + min;
-    }
     this.setIntervIn = setInterval(()=>{
-      let n:number = getRandom(1,5),
+      let n:number = ~~this.getRandom(1,5),
           cur:number = +this.express[this.expressType].in + n;
       if(cur > express[this.expressType].in + 1000) {
         cur = express[this.expressType].in
@@ -231,7 +264,7 @@ export default class Index extends Vue {
       this.express[this.expressType].in = cur;
     },30000);
     this.setIntervOut = setInterval(()=>{
-      let n:number = getRandom(1,5),
+      let n:number = ~~this.getRandom(1,5),
           cur:number = +this.express[this.expressType].out + n;
       if(cur > express[this.expressType].out + 1000) {
         cur = express[this.expressType].out
@@ -240,16 +273,26 @@ export default class Index extends Vue {
     },28000);
   }
   getRandomService(money:number) {
-    let getRandom = (min:number, max:number) => {
-      return Math.random()*(max-min) + min;
-    }
     setInterval(()=>{
-      let n:number = getRandom(0,1),
+      let n:number = this.getRandom(0,1),
           cur:number = +this.serviceMoney[0]+ +this.serviceMoney[1]/100 + n;
       if(cur > money + 100) {
         cur = money
+        this.allData.serviceMoneyToday -= 100;
       }
       this.serviceMoney = this.getFormateNumber(cur, 5);
+      this.allData.serviceMoneyToday += n;
+    },30000);
+  }
+
+  getRandomTrade(money:number) {
+    setInterval(()=>{
+      let n:number = this.getRandom(0,1),
+          cur:number = +this.tradeTotal[0]+ +this.tradeTotal[1]/100 + n;
+      if(cur > money + 100) {
+        cur = money
+      }
+      this.tradeTotal = this.getFormateNumber(cur, 9);
     },30000);
   }
 
@@ -260,14 +303,14 @@ export default class Index extends Vue {
     l = l.length < 2 ? l + '0' : l;
     let zero = int.length < len ? len - int.length : 0;
     int = '0'.repeat(zero)+int;
-    return [int,l];
+    return [int,l]
   }
 
   getData (): void {
     // (this as any).$get('http://47.92.72.173/api/Zhangyedata/getDataInfo').then((r:any)=>{
     (this as any).$get('huade.json').then((r:any)=>{
       r = r.data;
-      if(r. code === 200) {
+      if(r.code === 200) {
         console.log(r.data);
         this.allData = r.data;
         let data = r.data;
@@ -289,19 +332,73 @@ export default class Index extends Vue {
           (this.$refs.rollerTop as any).runRoller(data.fupinPeopleList);
           (this.$refs.rollerLB as any).runRoller(data.serviceList);
           (this.$refs.rollerMidInBottom as any).runRoller(data.tradeRankData);
+
+          (this.$refs.PieDoughnut1 as any).drawEchart(data.skuTypeRate);
+          (this.$refs.PieDoughnut2 as any).drawEchart(data.platformRate);
+          (this.$refs.PieDoughnut3 as any).drawEchart(data.fupinRateList);
+          
         });
         this.skuDetail = data.skuDetail;
-        this.tradeTotal = this.getFormateNumber(data.tradeTotal, 4)
+        this.tradeTotal = this.getFormateNumber(data.tradeTotal, 9);
+        this.getRandomTrade(data.tradeTotal);
 
-        this.areaSale.list = data.areaSale
-
-        this.orderArea.list = data.orderArea;
-        (this.$refs.PieDoughnut1 as any).drawEchart(data.skuTypeRate);
-        (this.$refs.PieDoughnut2 as any).drawEchart(data.platformRate);
-        (this.$refs.PieDoughnut3 as any).drawEchart(data.fupinRateList);
+        // this.areaSale.list = data.areaSale
+        // this.orderArea.list = data.orderArea;
       }
-    });
+    })
+  }
+
+  getTrainData(): void {
+    (this as any).$get('train.json').then((r:any)=>{
+      r = r.data;
+      if(r.code === 200) {
+        this.trainData = r.data;
+        this.$nextTick(()=>{
+          (this.$refs.PieDoughnut4 as any).drawEchart(r.data.detail);
+        })
+      }
+    })
+  }
+
+  yearMonthFunction(step: number) {
+    let date:any,year:any, month:any,
+        get2Nmuber = (m:any) => {
+          m = m < 10 ? '0' + m : m;
+          return m
+        },
+        getPNMonth = (step:number) => {
+          let m = month + step,
+              y = year;
+          if(m === 0) {
+            y = y - 1
+            m = 12
+          }
+          if(m === 13) {
+            y = y + 1
+            m = 1
+          }
+          return {
+            year: y,
+            month: get2Nmuber(m)
+          }
+        };
+    if(step === 0) {
+      let now = new Date();
+      year = now.getFullYear();
+      month = now.getMonth() + 1;
+    } else {
+      year = this.timePicker[1+step].year;
+      month = +this.timePicker[1+step].month;
+    }
     
+    this.timePicker = [
+      getPNMonth(-1),
+      {
+        year: year,
+        month: get2Nmuber(month)
+      },
+      getPNMonth(1)
+    ]
   }
 }
 </script>
@@ -325,7 +422,6 @@ export default class Index extends Vue {
     height: .78rem;
     background: url('../assets/img/banner.gif') left bottom no-repeat / auto .6rem;
     .time {
-      margin-top: -.1rem;
       text-align: right;
       font-size: .24rem;
       strong {
@@ -394,6 +490,7 @@ export default class Index extends Vue {
   }
   .main-right {
     width: 4.2rem;
+    margin-top: .1rem;
   }
   .lt-head {
     display: flex;
@@ -579,25 +676,7 @@ export default class Index extends Vue {
     margin-bottom: .3rem;
     background-image: url('../assets/img/lt.png')
   }
-  .right-top,.right-middle,.right-bottom {
-    background-image: url('../assets/img/r.png')
-  }
-  .right-bottom {
-    position: relative;
-    img {
-      position: absolute;
-      bottom: -.05rem;
-      right: 0;
-      height: .6rem;
-      width: 100%; 
-    }
-  }
-  .right-top {
-    height: 2.69rem;
-    .money {
-      margin-top: .17rem
-    }
-  }
+  
   .lb {
     position: relative;
     height: 5.04rem;
@@ -685,47 +764,161 @@ export default class Index extends Vue {
       flex-basis: 5.86rem;
     }
   }
-  .inout {
-    .title {
-      margin: .28rem 0 .14rem;
-      font-weight: 600;
-      font-size: .18rem;
-    }
-    .top {
-      height: .6rem;
-      padding: .16rem .1rem;
-      background: #00143B;
-      border-radius: .04rem;
-      &>div{
-        float: left;
-        width: 50%;
-      }
-      strong {
-        font-size: .24rem;
-        line-height: .28rem;
-        padding: 0 2px;
-        color: #17D0AC;
-      }
-      img {
-        width: .28rem;
-        height: .28rem;
-        margin-right: .06rem;
-      }
-    }
-    ul {
-      overflow: hidden;
-      padding-top: .2rem;
+  .right-top,.right-middle,.right-bottom {
+    background-image: url('../assets/img/r.png')
+  }
+  .right-top {
+    height: 3.25rem;
+    margin-bottom: .3rem;
+    .inout {
       display: flex;
-      flex-wrap: wrap;
-      li {
-        display: flex;
-        flex-basis: 50%;
-        margin-bottom: .15rem;
+      align-items: center;
+      padding: .05rem;
+      margin-bottom: .1rem;
+      border-radius: .05rem;
+      background: rgba(0,228,255,.1);
+      &-left {
+        height: .6rem;
+        flex-basis: .88rem;
+        text-align: center;
+        line-height: .6rem;
+        font-size: .32rem;
+        font-weight: 600;
+        border-radius: .05rem;
+        background: rgba(4,23,46,1)
+      }
+      &-right {
+        margin-left: .2rem;
+        &>div {
+          display: flex;
+          align-items: center;
+          &:first-child{
+            margin-bottom: .06rem;
+          }
+        }
         strong {
-          padding: 0 2px;
-          color: #4fccff
+          font-size: .24rem;
+          line-height: .28rem;
+          padding: 0 .04rem;
+          color: #17D0AC;
+        }
+        img {
+          width: .2rem;
+          height: .2rem;
+          margin-right: .12rem;
         }
       }
     }
   }
+  .right-middle {
+    height: 3.05rem;
+    margin-bottom: .3rem;
+    &-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: .05rem;
+      margin-bottom: .1rem;
+      border-radius: .05rem;
+      background: rgba(0,228,255,.1);
+      &-left {
+        height: .4rem;
+        flex-basis: .88rem;
+        text-align: center;
+        line-height: .4rem;
+        font-size: .18rem;
+        font-weight: 600;
+        border-radius: .05rem;
+        background: rgba(4,23,46,1)
+      }
+      &-mid {
+        strong {
+          margin: 0 .05rem;
+          color: #FFC760
+        }
+      }
+      &-right {
+        img {
+          width: .2rem;
+          height: .2rem;
+          margin-right: .06rem;
+        }
+      }
+    }
+  }
+  .right-bottom {
+    position: relative;
+    height: 3.2rem;
+    padding-left: .3rem;
+    padding-right: .3rem;
+    &-top {
+      display: flex;
+      align-items: center;
+      height: .42rem;
+      margin-bottom: .15rem;
+      padding: 0 .1rem;
+      line-height: .42rem;
+      font-weight: 600;
+      border-radius: .05rem;
+      background: rgba(0,228,255,.1);
+      div {
+        flex-basis: 2.07rem;
+        height: .32rem;
+        line-height: .33rem;
+        margin-right: .05rem;
+        padding-right: .1rem;
+        text-align: right;
+        font-size: .28rem;
+        color: #FFC760;
+        border-radius: .08rem;
+        background: rgba(4,23,46,1);
+      }
+    }
+    .time-select {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: .2rem;
+      .prev,.next {
+        font-size: 0;
+        height: 0;
+        border-top: .1rem solid transparent;
+        border-bottom: .1rem solid transparent;
+        border-radius: 2px;
+        cursor: pointer;
+      }
+      .prev {
+        border-right: .14rem solid #00e4ef;
+        border-left: none;
+      }
+      .next {
+        border-right: none;
+        border-left: .14rem solid #00e4ef;
+      }
+      .date {
+        display: flex;
+        flex-basis: 2.9rem;
+        justify-content: space-between;
+        &>div {
+          font-size: .12rem;
+          opacity: 0.4;
+        }
+        .active {
+          opacity: 1;
+          font-size: .16rem;
+          font-weight: 600;
+        }
+      }
+    }
+    img {
+      position: absolute;
+      bottom: -.1rem;
+      right: 0;
+      height: .6rem;
+      width: 100%; 
+    }
+  }
+  
 </style>

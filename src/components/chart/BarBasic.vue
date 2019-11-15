@@ -1,5 +1,5 @@
 <template>
-  <div ref="echart" :style="{width:datas.w, height: datas.h}">
+  <div ref="echart" :style="{height: height, width: '100%'}">
   </div>
 </template>
 <script lang="ts">
@@ -11,38 +11,62 @@ import 'echarts/lib/chart/bar';
 
 @Component
 export default class BarBasic extends Vue {
-	@Prop()private datas!: any
-	
+	@Prop() private height!: string
+  @Prop() private datas!: any
+  
+	colorList:Array<string> = ['#1890ff','#13c2c2','#9270ca','#f6c74a','#e97f67','#d3f261']
+
+
 	@Watch('datas', {deep: true})
 	watchDatas (): void {
-		if (!this.datas) return;
-		this.drawChartBarBasic(this.datas.xAxisData, this.datas.seriesData)
+    if (!this.datas) return;
+    let xAxisData:any = [], seriesData:any = [];
+    this.datas.forEach((v:any, index:number) => {
+      xAxisData.push(v.name)
+      seriesData.push({
+        value: v.value,
+        itemStyle: {
+          color: this.colorList[index%this.colorList.length]
+        }
+      })
+    });
+		this.drawChartBarBasic(xAxisData, seriesData)
 	}
   drawChartBarBasic (xAxisData: Array<string>, seriesData: Array<number>) {
 		const myChart = echarts.init(this.$refs.echart as HTMLDivElement)
-		// myChart.resize(true)
+    // myChart.resize(true)
+    
     myChart.setOption({
-      title: {
-        text: '全国货柜销售金额',
-        textStyle: {
-          color: '#fff'
-        },
-        left: 'center'
-      },
+      // title: {
+      //   text: '全国货柜销售金额',
+      //   textStyle: {
+      //     color: '#fff'
+      //   },
+      //   left: 'center'
+      // },
       grid: {
-        left: 100
+        // left: 10,
+        top: 20,
+        right: 20,
+        bottom: 20,
+        borderWidth: 0
       },
 			tooltip: {
+        show: false,
 				trigger: 'item',
 				formatter: '{b}<br/>{c} (p / km2)'
       },
-      textStyle:{
-        color: '#fff'
+      textStyle:{ // 图片所有文字样式，优先级最高
+        // color: '#00e4ff'
       },
       xAxis:{
+        nameTextStyle: {
+          color: '#00e4ff',
+        },
         axisLine: {
+          show: false,
           lineStyle: {
-            color: '#fff',
+            color: '#00e4ff',
             width: 1
           }
         },
@@ -55,17 +79,22 @@ export default class BarBasic extends Vue {
       yAxis: {
         type: 'value',
         // name: 'YY',
+        axisLine: {
+          lineStyle: {
+            color: '#29929e',
+            width: 1
+          },
+          show: false
+        },
         axisTick: {
           show: false
         },
-        axisLine: {
-          lineStyle: {
-            color: '#fff',
-            width: 1
-          }
-        },
         splitLine: {
-          show: false
+          lineStyle: {
+            color: '#003560',
+            width: 1
+          },
+          show: true
         }
       },
 			series: [
@@ -77,7 +106,8 @@ export default class BarBasic extends Vue {
               position: 'top'
             }
           },
-					type: 'bar',
+          type: 'bar',
+          barWidth: '60%',
 					data: seriesData,
 				}
 			]

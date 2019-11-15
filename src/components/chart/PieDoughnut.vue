@@ -5,7 +5,7 @@
 				<span :style="{background:colorList[index]}"></span>{{item}}
 			</div>
 		</div>
-		<div class="echart" ref="echart" :style="{width:width,height:width}">
+		<div class="echart" ref="echart" :style="{width:width,height:height}">
 		</div>
 	</div>
 </template>
@@ -19,6 +19,7 @@ import 'echarts/lib/component/title';
 @Component
 export default class PieDoughnut extends Vue {
 	@Prop() private width!:string
+	@Prop() private height!:string
 	@Prop() private clasName?: string
 	// @Watch('datas', {deep: true})
 	// mounted() {

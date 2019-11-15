@@ -5,13 +5,13 @@
     "detail":[
       {
         "name": "大学生",
-        "number": 124
+        "value": 124
       },{
         "name": "贫困户",
-        "number": 124
+        "value": 124
       },{
         "name": "企事业单位",
-        "number": 124
+        "value": 124
       }
       
     ]
