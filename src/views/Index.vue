@@ -426,8 +426,8 @@ export default class Index extends Vue {
   
   .banner {
     position: absolute;
-    // left: 9.7rem;
-    left: .7rem;
+    left: 9.7rem;
+    // left: .7rem;
     top: .3rem;
     right: 4.8rem;
     height: .78rem;
@@ -453,7 +453,7 @@ export default class Index extends Vue {
     margin-top: -.3rem;
     background: url('../assets/img/weather.png') no-repeat center center / 100% 100%;
     h3 {
-      padding: .42rem 0 0 .6rem;
+      padding: .4rem 0 0 .6rem;
       font: 600 .40rem/.52rem "MicrosoftYaHei";
     }
     p {
@@ -476,6 +476,7 @@ export default class Index extends Vue {
   .main-left{
     width: 5.08rem;
     margin-top: .76rem;
+    margin-left: -.5rem;
   }
   .main-middle{
     width: 8.7rem;
