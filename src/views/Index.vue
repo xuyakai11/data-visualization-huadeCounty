@@ -1,7 +1,6 @@
 <template>
   <div class="wrap">
     <div class="banner">
-      <!-- <img src="../assets/img/banner.gif" alt=""> -->
       <div class="time">
         <strong>{{timer[0]}}</strong> - <strong>{{timer[1]}}</strong> - <strong>{{timer[2]}}</strong>
         <strong class="week">周{{timer[6]}}</strong>
@@ -11,9 +10,13 @@
       </div>
     </div>
     <div class="main">
-      <!-- <div class="weather">
-
-      </div> -->
+      <div class="weather">
+        <h3>化德县电子商务数据综合展示平台</h3>
+        <p>HUADE E-COMMERCE DATA DISPLAY PLATFORM</p>
+        <div class="iframe">
+          <!-- <iframe src="http://183.230.40.192:8088/cmcc/Login" frameborder="0"></iframe> -->
+        </div>
+      </div>
       <div class="main-left">
         <div class="common lt">
           <h3>扶贫数据</h3>
@@ -447,7 +450,28 @@ export default class Index extends Vue {
   .weather {
     width: 8.7rem;
     height: 10.56rem;
+    margin-top: -.3rem;
     background: url('../assets/img/weather.png') no-repeat center center / 100% 100%;
+    h3 {
+      padding: .42rem 0 0 .6rem;
+      font: 600 .40rem/.52rem "MicrosoftYaHei";
+    }
+    p {
+      font-family: "MicrosoftYaHeiLight";
+      font-weight: 200;
+      padding: .1rem 0 0 1.9rem;
+      font-size: .2rem;
+    }
+    .iframe {
+      width: 7.8rem;
+      height: 8.8rem;
+      margin: .3rem auto 0;
+      // background: #fff;
+      iframe {
+        width: 100%;
+        height: 100%;
+      }
+    }
   }
   .main-left{
     width: 5.08rem;

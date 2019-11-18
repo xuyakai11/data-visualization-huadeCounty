@@ -39,7 +39,7 @@ export default function () {
 			forceRefresh = function () {
 					// 刷新 dpr 对应的 rem 字号大小
 					var w = docEle.getBoundingClientRect().width
-					rem = w / 1920 * 100
+					rem = w / 2077 * 100
 					docEle.style.fontSize = rem + 'px';
 			},
 			refresh = function () {

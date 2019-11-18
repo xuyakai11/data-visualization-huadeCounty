@@ -30,7 +30,7 @@ export default class RollingOfRankings extends Vue {
   @Prop() private dataName!: Array<string>;
   datas: Array<any> = []
   timer: number = 0; // 定时器
-  timerDuration: number = 3000; // 定时器持续时长(s)
+  timerDuration: number = 12000; // 定时器持续时长(s)
   // timerDurationNumber: number = 60000; // 每间隔n秒更新数据
   eachHeight: number = .4
   animationDone:boolean =  true
@@ -140,7 +140,7 @@ export default class RollingOfRankings extends Vue {
     width: 100%;
     transition: transform .8s cubic-bezier(0, .3, .58, 1); 
     background: transparent;
-    &:nth-child(2n+1){
+    &:nth-child(2n){
       background: rgba(0,228,255,.1)
     }
     &>div:last-child {
