@@ -31,7 +31,7 @@
             </div>
             <div class="pie"> 
               <h4>各乡镇扶贫人数占比</h4>
-              <PieDoughnut ref="PieDoughnut3" width="1.1rem" height="1.1rem" clasName="word-in-left" />
+              <PieDoughnut ref="PieDoughnut3" width="1rem" height="1rem" clasName="word-in-left" />
             </div>
           </div>
           <RollingOfRankings ref="rollerTop" :lenEach="4" :titleList="['乡村','人名','日收入','月收入','年收入','增长']" :dataName="['nameTown','name','dayIncome','monthIncome','yearIncome','increase']" />
@@ -157,7 +157,7 @@
           <div class="right-bottom-top">
             累计培训人数：<div>{{trainData.total}}</div>人
           </div>
-          <PieWithScrollableLegend ref="PieDoughnut4" width="100%" height="1.38rem"/>
+          <PieWithScrollableLegend ref="PieDoughnut4" width="100%" height="1.6rem"/>
           <div class="time-select">
             <div class="prev" @click="yearMonthFunction(-1)"></div>
             <div class="date">
@@ -229,7 +229,6 @@ export default class Index extends Vue {
   }
   mounted() {
     this.getData();
-    this.getTrainData()
   }
 
   timerFunction (): void {
@@ -314,19 +313,28 @@ export default class Index extends Vue {
         console.log(r.data);
         this.allData = r.data;
         let data = r.data;
-        this.tradeTotal = this.getFormateNumber(data.tradeTotal, 5);
         this.fupinMoney = this.getFormateNumber(data.fupinMoney, 5);
         this.serviceMoney = this.getFormateNumber(data.serviceMoney, 5);
         this.getRandomService(data.serviceMoney)
+        this.tradeTotal = this.getFormateNumber(data.tradeTotal, 9);
 
         this.sale = data.sale;
-
         this.express = data.express;
         this.getRandomExpress(data.express);
         let index = 0;
         setInterval(()=>{
           index = index > 2 ? 0 : index + 1;
           this.expressType = ['today','week','month','year'][index]
+        },30000);
+
+        this.skuDetail = data.skuDetail;
+        this.getRandomTrade(data.tradeTotal);
+        setInterval(()=>{
+          if(this.skuIndex < this.skuDetail.length - 1) {
+            this.skuIndex++;
+          } else {  
+            this.skuIndex = 0;
+          }
         },30000);
         this.$nextTick(()=>{
           (this.$refs.rollerTop as any).runRoller(data.fupinPeopleList);
@@ -338,9 +346,7 @@ export default class Index extends Vue {
           (this.$refs.PieDoughnut3 as any).drawEchart(data.fupinRateList);
           
         });
-        this.skuDetail = data.skuDetail;
-        this.tradeTotal = this.getFormateNumber(data.tradeTotal, 9);
-        this.getRandomTrade(data.tradeTotal);
+        
 
         // this.areaSale.list = data.areaSale
         // this.orderArea.list = data.orderArea;
@@ -348,7 +354,7 @@ export default class Index extends Vue {
     })
   }
 
-  getTrainData(): void {
+  getTrainData(year:number, month:number): void {
     (this as any).$get('train.json').then((r:any)=>{
       r = r.data;
       if(r.code === 200) {
@@ -398,7 +404,9 @@ export default class Index extends Vue {
         month: get2Nmuber(month)
       },
       getPNMonth(1)
-    ]
+    ];
+    this.getTrainData(year,month)
+
   }
 }
 </script>
@@ -408,7 +416,7 @@ export default class Index extends Vue {
     position: relative;
     box-sizing: border-box;
     min-height: 100vh;
-    padding: .3rem;
+    padding: .3rem .3rem .2rem;
     background: url('../assets/img/bg.jpg') 0 0 no-repeat;
     background-size: cover;
   }
@@ -494,7 +502,7 @@ export default class Index extends Vue {
   }
   .lt-head {
     display: flex;
-    margin-bottom: .14rem;
+    margin-bottom: .1rem;
     flex: auto;
     .left {
       display: flex;
@@ -880,7 +888,6 @@ export default class Index extends Vue {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-top: .2rem;
       .prev,.next {
         font-size: 0;
         height: 0;

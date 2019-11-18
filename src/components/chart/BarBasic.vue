@@ -47,7 +47,7 @@ export default class BarBasic extends Vue {
       grid: {
         // left: 10,
         top: 20,
-        right: 20,
+        right: 0,
         bottom: 20,
         borderWidth: 0
       },
@@ -107,7 +107,7 @@ export default class BarBasic extends Vue {
             }
           },
           type: 'bar',
-          barWidth: '60%',
+          barWidth: '50%',
 					data: seriesData,
 				}
 			]

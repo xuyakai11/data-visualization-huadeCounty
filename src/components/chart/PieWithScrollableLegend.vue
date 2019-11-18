@@ -14,7 +14,7 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import echarts from 'echarts'
 import 'echarts/lib/chart/pie';
 import 'echarts/lib/component/title';
-// import 'echarts/lib/component/tooltip'
+import 'echarts/lib/component/tooltip'
 
 @Component
 export default class PieWithScrollableLegend extends Vue {
@@ -41,7 +41,7 @@ export default class PieWithScrollableLegend extends Vue {
 				top: 0,
 				right: 0,
 				bottom: 0,
-				left: 0
+				left: 30
 			},
 			// legend: {
 			// 	show: false,
@@ -64,18 +64,26 @@ export default class PieWithScrollableLegend extends Vue {
 					// name:'访问来源',
 					type:'pie',
 					// center:['50%','45%'],
-					radius: ['50%', '100%'],
+					radius: ['30%', '75%'],
 					silent: true,
 					hoverAnimation: false,
 					legendHoverLink: false,
 					label: {
 						normal: {
-							color:'#fff',
-							backgroundColor: 'rgba(0,0,0,.75)',
+							// color:'#fff',
+							// backgroundColor: 'rgba(0,0,0,.75)',
 							padding: 5,
-							show: false,
-							position: 'inside',
-							formatter: function(r:any){return r.percent + '%'}
+							show: true,
+							// position: 'inside',
+							formatter: function(r:any){
+								return ['{name|'+r.name+'}', '{value|'+r.value+'}'].join('\n')
+							},
+							rich: {
+								value: {
+									fontWeight: 600,
+									fontSize: 16
+								}
+							}
 						}
 					},
 					data: data
@@ -93,14 +101,14 @@ export default class PieWithScrollableLegend extends Vue {
 	}
 }
 .echart {
-	margin: .1rem auto;
+	margin: 0 auto;
 }
 .list {
 	display: flex;
 	flex-wrap: wrap;
 	&>div {
 		position: relative;
-		flex-basis: 33.33%;
+		flex: auto;
 		padding-left: .18rem;
 		margin-bottom: .1rem;
 		font-size: .12rem;

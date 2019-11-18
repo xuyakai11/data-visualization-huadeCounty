@@ -1,16 +1,18 @@
 <template>
-  <div class="roll-wrap" :class="clasName" ref="rollElement" :style="{height: (lenEach+1)*eachHeight+'rem'}">
-    <div class="list-title title">
+  <div :class="clasName">
+    <div class="list-title title" :style="{height: eachHeight+'rem'}">
       <div v-for="item in titleList" :key="item">{{item}}</div>
     </div>
-    <div
-      class="list"
-      v-for="(item,i) in datas"
-      :key="item.id"
-      :style="{transform: 'translate(0, '+eachHeight*(lenEach + i)+'rem)'}"
-      :data-index="i"
-    >
-      <div class="ellipsis" v-for="(key, index) in dataName" :key="index">{{item[key]}}</div>
+    <div class="roll-wrap" ref="rollElement" :style="{height: lenEach*eachHeight+'rem'}">
+      <div
+        class="list"
+        v-for="(item,i) in datas"
+        :key="item.id"
+        :style="{transform: 'translate(0, '+eachHeight*(lenEach + i)+'rem)'}"
+        :data-index="i"
+      >
+        <div class="ellipsis" v-for="(key, index) in dataName" :key="index">{{item[key]}}</div>
+      </div>
     </div>
   </div>
 </template>
@@ -28,7 +30,7 @@ export default class RollingOfRankings extends Vue {
   @Prop() private dataName!: Array<string>;
   datas: Array<any> = []
   timer: number = 0; // 定时器
-  timerDuration: number = 12000; // 定时器持续时长(s)
+  timerDuration: number = 3000; // 定时器持续时长(s)
   // timerDurationNumber: number = 60000; // 每间隔n秒更新数据
   eachHeight: number = .4
   animationDone:boolean =  true
@@ -48,13 +50,13 @@ export default class RollingOfRankings extends Vue {
     }
   }
   initRoll (): void {
-    
     let el: any = this.$refs.rollElement as HTMLDivElement;
     let child: Array<any> = el.children || [];
     const len: number = child.length;
     const cycle: number = Math.ceil(len/this.lenEach); // 循环周期
     el.loopCurrent = 0; // 当前循环动画队列执行索引
     el.current = 0;// 当前循环(有且仅有一次0，初始化时)
+    console.log(child)
     const eventTransitionend = () => {
       if (++el.loopCurrent !== len) return
       // 动画队列执行完毕
@@ -153,7 +155,8 @@ export default class RollingOfRankings extends Vue {
     }
   }
   .roll-mid-in-bottom{
-
+    flex-basis: 5.66rem !important;
+    margin-left: .2rem;
     .list,.list-title {
       &>div {
         flex-basis: 14.3%;
