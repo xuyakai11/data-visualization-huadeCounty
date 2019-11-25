@@ -51,7 +51,7 @@
                 <div v-for="item in serviceMoney[1]">{{item}}</div>
               </div>
             </div>
-            <div class="today">今日便民服务金额：<span>{{allData.serviceMoneyToday&&allData.serviceMoneyToday.toFixed(2)}}</span>RMB / 元
+            <div class="today">今日便民服务金额：<span>{{allData.serviceMoneyToday&&(+allData.serviceMoneyToday).toFixed(2)}}</span>RMB / 元
             </div>
           </div>
           <RollingOfRankings clasName="roll-left-bottom" ref="rollerLB" :lenEach="6" :titleList="['乡村','电费','话费','代买代卖','助农取款','快递']"  :dataName="['nameTown','eleFee','phoneFee','buying','helpMoney','expressFee']" />
@@ -299,7 +299,7 @@ export default class Index extends Vue {
   }
 
   getFormateNumber(n:number, len:number):Array<string> {
-    let y = n.toFixed(2).split('.');
+    let y = (+n).toFixed(2).split('.');
     let int = y[0],
         l = y[1]||'00';
     l = l.length < 2 ? l + '0' : l;
@@ -309,8 +309,8 @@ export default class Index extends Vue {
   }
 
   getData (): void {
-    // (this as any).$get('http://47.92.72.173/api/Zhangyedata/getDataInfo').then((r:any)=>{
-    (this as any).$get('huade.json').then((r:any)=>{
+    (this as any).$get('http://118.26.165.49/api/huade/getHuade').then((r:any)=>{
+    // (this as any).$get('huade.json').then((r:any)=>{
       r = r.data;
       if(r.code === 200) {
         console.log(r.data);
@@ -358,7 +358,8 @@ export default class Index extends Vue {
   }
 
   getTrainData(year:number, month:number): void {
-    (this as any).$get('train.json').then((r:any)=>{
+    (this as any).$get(`http://118.26.165.49/api/huade/getTrain?dateStamp=${year}-${month}`).then((r:any)=>{
+    // (this as any).$get('train.json').then((r:any)=>{
       r = r.data;
       if(r.code === 200) {
         this.trainData = r.data;
