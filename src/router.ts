@@ -13,11 +13,6 @@ export default new Router({
       path: '/index',
       name: 'Index',
       component: () => import('./views/Index.vue')
-    },
-    {
-      path: '/mappage',
-      name: 'MapPage',
-      component: () => import('./views/MapPage.vue')
     }
   ]
 })
