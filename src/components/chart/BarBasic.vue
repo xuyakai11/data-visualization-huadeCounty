@@ -45,7 +45,7 @@ export default class BarBasic extends Vue {
       //   left: 'center'
       // },
       grid: {
-        // left: 10,
+        left: 30,
         top: 20,
         right: 0,
         bottom: 20,
@@ -79,6 +79,11 @@ export default class BarBasic extends Vue {
       yAxis: {
         type: 'value',
         // name: 'YY',
+        axisLabel: {
+          formatter: function (val:any) {
+              return ~~(val/1000) + 'k';
+          }
+        },
         axisLine: {
           lineStyle: {
             color: '#29929e',

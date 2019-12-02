@@ -14,7 +14,7 @@
         <h3>化德县电子商务数据综合展示平台</h3>
         <p>HUADE E-COMMERCE DATA DISPLAY PLATFORM</p>
         <div class="iframe">
-          <!-- <iframe src="http://183.230.40.192:8088/cmcc/Login" frameborder="0"></iframe> -->
+          <iframe src="http://sennor.net" frameborder="0"></iframe>
         </div>
       </div>
       <div class="main-left">
@@ -22,12 +22,12 @@
           <h3>扶贫数据</h3>
           <div class="lt-head">
             <div class="left">
-              <h4>累计扶贫人数：</h4>
+              <h4>累计扶贫人数</h4>
               <div class="number">{{allData.fupinNumber}}</div>
-              <h4>累计扶贫金额：</h4>
+              <h4>累计扶贫金额</h4>
               <div class="number">
                 <div>{{fupinMoney[0]}}</div>
-                <div class="decimal"><span>RMB / 万元</span>
+                <div class="decimal"><span>万元</span>
                   <div>.{{fupinMoney[1]}}</div>
                 </div>
               </div>
@@ -47,7 +47,7 @@
               <div v-for="item in serviceMoney[0]">{{item}}</div>
               <i></i>
               <div class="decimal">
-                <span>RMB / 万元</span>
+                <span>万元</span>
                 <div v-for="item in serviceMoney[1]">{{item}}</div>
               </div>
             </div>
@@ -158,7 +158,7 @@
         <div class="common right-bottom">
           <h3>培训统计</h3>
           <div class="right-bottom-top">
-            累计培训人数：<div>{{trainData.total}}</div>人
+            累计培训人数<div>{{trainData.total}}</div>人
           </div>
           <PieWithScrollableLegend ref="PieDoughnut4" width="100%" height="1.6rem"/>
           <div class="time-select">
@@ -896,7 +896,8 @@ export default class Index extends Vue {
       border-radius: .05rem;
       background: rgba(0,228,255,.1);
       div {
-        flex-basis: 2.07rem;
+        flex-basis: 1.8rem;
+        margin-left: 5px;
         height: .32rem;
         line-height: .33rem;
         margin-right: .05rem;

@@ -38,8 +38,8 @@ export default class PieWithScrollableLegend extends Vue {
 		const myChart = echarts.init(this.$refs.echart as HTMLDivElement)
     myChart.setOption({
 			gird:{
-				top: 0,
-				right: 0,
+				top: 20,
+				right: 30,
 				bottom: 0,
 				left: 30
 			},
@@ -76,7 +76,8 @@ export default class PieWithScrollableLegend extends Vue {
 							show: true,
 							// position: 'inside',
 							formatter: function(r:any){
-								return ['{name|'+r.name+'}', '{value|'+r.value+'}'].join('\n')
+								return ['{value|'+r.value+'}'].join('\n')
+								// return ['{name|'+r.name+'}', '{value|'+r.value+'}'].join('\n')
 							},
 							rich: {
 								value: {
