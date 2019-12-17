@@ -21,10 +21,10 @@
             <div class="left">
               <h4>累计扶贫人数</h4>
               <div class="number">{{allData.fupinNumber}}</div>
-              <h4>累计扶贫金额</h4>
+              <h4>累计销售金额</h4>
               <div class="number">
                 <div>{{fupinMoney[0]}}</div>
-                <div class="decimal"><span>万元</span>
+                <div class="decimal"><span>元</span>
                   <div>.{{fupinMoney[1]}}</div>
                 </div>
               </div>
@@ -34,7 +34,7 @@
               <PieDoughnut ref="PieDoughnut3" width="1rem" height="1rem" clasName="word-in-left" />
             </div>
           </div>
-          <RollingOfRankings ref="rollerTop" :lenEach="4" :titleList="['乡村','人名','日收入','月收入','年收入','增长']" :dataName="['nameTown','name','dayIncome','monthIncome','yearIncome','increase']" />
+          <RollingOfRankings ref="rollerTop" :lenEach="3" :titleList="['乡村','人名','月收入','年收入']" :dataName="['nameTown','name','monthIncome','yearIncome']" />
         </div>
         <div class="common lb">
           <h3>站点便民服务</h3>
@@ -44,7 +44,7 @@
               <div v-for="item in serviceMoney[0]">{{item}}</div>
               <i></i>
               <div class="decimal">
-                <span>万元</span>
+                <span>元</span>
                 <div v-for="item in serviceMoney[1]">{{item}}</div>
               </div>
             </div>
@@ -131,7 +131,7 @@
               </div>
             </div>
           </div>
-          <p>今日快递上下行累计数据：</p>
+          <!-- <p>今日快递上下行累计数据：</p> -->
           <BarBasic ref="barBasic" :datas="express[expressType].county" height="1.7rem"/>
         </div>
         <div class="common right-middle">

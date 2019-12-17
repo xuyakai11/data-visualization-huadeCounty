@@ -56,7 +56,7 @@ export default class RollingOfRankings extends Vue {
     const cycle: number = Math.ceil(len/this.lenEach); // 循环周期
     el.loopCurrent = 0; // 当前循环动画队列执行索引
     el.current = 0;// 当前循环(有且仅有一次0，初始化时)
-    console.log(child)
+    
     const eventTransitionend = () => {
       if (++el.loopCurrent !== len) return
       // 动画队列执行完毕
