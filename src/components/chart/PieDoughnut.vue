@@ -27,7 +27,7 @@ export default class PieDoughnut extends Vue {
 	// 	this.drawChartBarBasic(this.datas.xAxisData, this.datas.seriesData)
 	// }
 	listName: Array<string> = []
-	colorList:Array<string> = ['#1890ff','#13c2c2','#9270ca','#f6c74a','#e97f67','#d3f261']
+	colorList:Array<string> = ['#1890ff','#13c2c2','#9270ca','#f6c74a','#e97f67','#d3f261','#1890ff','#13c2c2']
 	baseFont: number = 10;
 	mounted() {
 		let doc:any = document.documentElement

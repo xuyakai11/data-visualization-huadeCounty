@@ -354,7 +354,7 @@ export default class Index extends Vue {
     })
   }
 
-  getTrainData(year:number, month:number): void {
+  getTrainData(year:string, month:string): void {
     (this as any).$get(`http://118.26.165.49/api/huade/getTrain?dateStamp=${year}-${month}`).then((r:any)=>{
     // (this as any).$get('train.json').then((r:any)=>{
       r = r.data;
@@ -406,7 +406,7 @@ export default class Index extends Vue {
       },
       getPNMonth(1)
     ];
-    this.getTrainData(year,month)
+    this.getTrainData(year,get2Nmuber(month))
 
   }
 }
