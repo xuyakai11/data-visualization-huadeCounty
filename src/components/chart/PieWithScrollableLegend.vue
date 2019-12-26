@@ -38,7 +38,7 @@ export default class PieWithScrollableLegend extends Vue {
 		const myChart = echarts.init(this.$refs.echart as HTMLDivElement)
     myChart.setOption({
 			gird:{
-				top: 20,
+				top: 40,
 				right: 30,
 				bottom: 0,
 				left: 30
@@ -64,27 +64,30 @@ export default class PieWithScrollableLegend extends Vue {
 					// name:'访问来源',
 					type:'pie',
 					// center:['50%','45%'],
-					radius: ['30%', '75%'],
+					radius: ['30%', '70%'],
 					silent: true,
 					hoverAnimation: false,
 					legendHoverLink: false,
+					labelLine: {
+						length: 5,
+						length2: 15
+					},
 					label: {
 						normal: {
 							// color:'#fff',
 							// backgroundColor: 'rgba(0,0,0,.75)',
-							padding: 5,
+							padding: [10,10,10,10],
 							show: true,
 							// position: 'inside',
 							formatter: function(r:any){
-								return ['{value|'+r.value+'}'].join('\n')
+								return r.value
 								// return ['{name|'+r.name+'}', '{value|'+r.value+'}'].join('\n')
-							},
-							rich: {
-								value: {
-									fontWeight: 600,
-									fontSize: 16
-								}
 							}
+							// rich: {
+							// 	value: {
+							// 		fontSize: 14
+							// 	}
+							// }
 						}
 					},
 					data: data

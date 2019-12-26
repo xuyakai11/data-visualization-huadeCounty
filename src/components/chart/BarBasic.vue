@@ -22,7 +22,7 @@ export default class BarBasic extends Vue {
     if (!this.datas) return;
     let xAxisData:any = [], seriesData:any = [];
     this.datas.forEach((v:any, index:number) => {
-      xAxisData.push(v.name)
+      xAxisData.push(v.name.slice(0,2))
       seriesData.push({
         value: v.value,
         itemStyle: {

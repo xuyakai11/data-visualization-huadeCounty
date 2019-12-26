@@ -24,7 +24,7 @@
               <h4>累计销售金额</h4>
               <div class="number">
                 <div>{{fupinMoney[0]}}</div>
-                <div class="decimal"><span>元</span>
+                <div class="decimal"><span>万元</span>
                   <div>.{{fupinMoney[1]}}</div>
                 </div>
               </div>
@@ -44,7 +44,7 @@
               <div v-for="item in serviceMoney[0]">{{item}}</div>
               <i></i>
               <div class="decimal">
-                <span>元</span>
+                <span>万元</span>
                 <div v-for="item in serviceMoney[1]">{{item}}</div>
               </div>
             </div>
@@ -306,7 +306,7 @@ export default class Index extends Vue {
   }
 
   getData (): void {
-    (this as any).$get('http://118.26.165.49/api/huade/getHuade').then((r:any)=>{
+    (this as any).$get('http://121.36.95.10/api/huade/getHuade').then((r:any)=>{
     // (this as any).$get('huade.json').then((r:any)=>{
       r = r.data;
       if(r.code === 200) {
@@ -355,7 +355,7 @@ export default class Index extends Vue {
   }
 
   getTrainData(year:string, month:string): void {
-    (this as any).$get(`http://118.26.165.49/api/huade/getTrain?dateStamp=${year}-${month}`).then((r:any)=>{
+    (this as any).$get(`http://121.36.95.10/api/huade/getTrain?dateStamp=${year}-${month}`).then((r:any)=>{
     // (this as any).$get('train.json').then((r:any)=>{
       r = r.data;
       if(r.code === 200) {
